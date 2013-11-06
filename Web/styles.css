@@ -14,6 +14,9 @@ body {
 	padding: 0;
 }
 
+canvas {
+}
+
 /* - - - - - - - - - - - - - -
 - - - - Page Structure - - - -
 - - - - - - - - - - - - - - */
@@ -35,7 +38,7 @@ body {
 	color: #fff;
 }
 
-#map {
+#map-container {
     width: 100%;
     height: 500px;
 	background-color: #d8d8d8;
@@ -47,10 +50,10 @@ body {
 	text-align: center;
 }
 
-#graph {
+#graph-container {
+	margin: auto;
+	padding-top: 100px;
 	width: 100%;
-	height: 300px;
-}
-
-canvas {
+	height: 400px;
+	text-align: center;
 }
