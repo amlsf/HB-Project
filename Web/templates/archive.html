@@ -1,0 +1,37 @@
+{% extends 'base.html' %}
+	<body>
+	{% block body %}
+		<div id="nav">
+			<div id="title-container">
+				<div id="title">
+					<a href="/" class="title">Preparely</a>
+				</div>
+			</div>
+			<div id="nav-right">
+				<a href="/form" id="submit-button" class="navright">add to map</a>
+				<a href="/archive" class="navright">archived events</a>
+				<a href="/about" class="navright">about</a>
+			</div>
+		</div>
+
+		<br><br><br>
+
+		<div id="small-content">
+			Zombie Apocalypses
+			<ul>
+				<li><a href="/" class="archive">1968 Night of the Living Dead</a></li>
+
+				<li><a href="/" class="archive">1978 Dawn of the Dead</a></li>
+
+				<li><a href="/" class="archive">1985 Day of the Dead</a></li>
+
+				<li><a href="/" class="archive">2005 Land of the Dead</a></li>
+
+				<li><a href="/" class="archive">2007 Diary of the Dead</a></li>
+
+				<li><a href="/" class="archive">2010 Survival of the Dead</a></li>
+			</ul>
+		</div>
+	{% endblock %}
+	</body>
+</html>
