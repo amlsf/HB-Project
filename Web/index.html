@@ -1,30 +1,30 @@
-<!-- 
-	Author: Amy Lin
-	Project: Name TBD
-	Hackbright Academy, Fall 2013
-
-	With many thanks to:
-		Rickshaw - http://code.shutterstock.com/rickshaw/
-		D3 - http://d3js.org/
-		Google Fonts - http://www.google.com/fonts
--->
-
 <html>
 	<head>
 		<title>Preparely</title>
 		
-		<link rel="stylesheet" type="text/css" href="styles.css">
-		<link href="http://fonts.googleapis.com/css?family=Arvo" rel="stylesheet" type="text/css">
-		<script src="Openlayers.js"></script>
-		<script src="Chart.js"></script>
+		<!-- CSS import -->
+		<link rel="stylesheet" type="text/css" href="static/css/styles.css">
+        <link type="text/css" rel="stylesheet" href="static/css/graph.css">
+        <link type="text/css" rel="stylesheet" href="static/css/detail.css">
+        <link type="text/css" rel="stylesheet" href="static/css/legend.css">
+		<link href='http://fonts.googleapis.com/css?family=Arvo|Open+Sans:400,700' rel='stylesheet' type='text/css'>
+
+        <!-- JS import -->
+        <script src="static/js/d3.v2.js"></script>
+        <script src="static/js/rickshaw.js"></script>
 	</head>
 
 	<body>
 		<div id="nav">
 			<div id="title-container">
 				<div id="title">
-					Preparely
+					<a href="index.html" class="title">Preparely</a>
 				</div>
+			</div>
+			<div id="nav-right">
+				<a href="form.html" id="submit-button" class="navright">submit info</a>
+				<a href="archive.html" class="navright">archived events</a>
+				<a href="about.html" class="navright">about</a>
 			</div>
 		</div>
 		
@@ -33,38 +33,15 @@
 		</div>
 		
 		<div id="graph-container">
-			<!-- Chart JS -->
-			<!-- Step-by-step process from chartjs.org/docs -->
-			<canvas id="canvas" height="300" width="1000"></canvas>
-
-			<script>
-				// x-axis labels
-				var lineChartData = {
-					labels : ["January","February","March","April","May","June","July"],
-					
-					// two datasets with different points
-					datasets : [
-						{
-							fillColor : "rgba(220,220,220,0.5)",
-							strokeColor : "rgba(220,220,220,1)",
-							pointColor : "rgba(220,220,220,1)",
-							pointStrokeColor : "#fff",
-							data : [65,59,90,81,56,55,40]
-						},
-						{
-							fillColor : "rgba(151,187,205,0.5)",
-							strokeColor : "rgba(151,187,205,1)",
-							pointColor : "rgba(151,187,205,1)",
-							pointStrokeColor : "#fff",
-							data : [28,48,40,19,96,27,100]
-						}
-					]
-			
-				}
-
-				var myLine = new Chart(document.getElementById("canvas").getContext("2d")).Line(lineChartData);
-	
-			</script>
+			<div id="chart_container">
+				<div id="chart"></div>
+				<div id="legend_container">
+					<div id="smoother" title="Smoothing"></div>
+					<div id="legend"></div>
+				</div>
+				<div id="slider"></div>
+			</div>
+			<script type="text/javascript" src="static/js/graph.js"></script>
 		</div>
 	</body>
 </html>
