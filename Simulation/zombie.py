@@ -1,1 +1,1 @@
-# Simulate a zombie apocalypse
+# Simulation for zombie apocalypse

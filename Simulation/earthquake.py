@@ -1,1 +1,1 @@
-# Simulate an earthquake in SF
+# Simulation for earthquake in SF
