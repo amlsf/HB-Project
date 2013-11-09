@@ -81,6 +81,10 @@ a.archive {
 	text-align: center;
 }
 
+#map-canvas {
+    height: 100%;
+}
+
 /* - - - - - - - - - - - - - -
 - - - - - - Graph - - - - - - 
 - - - - - - - - - - - - - - */
