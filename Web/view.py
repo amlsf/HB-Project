@@ -44,6 +44,7 @@ def submit():
     city = request.form.get("city")
     state = request.form.get("state")
     zipcode = request.form.get("zipcode")
+    full_address = address + city + state + zipcode
 
     # ----- supply -----
     supply_type = request.form.get("supply_type")

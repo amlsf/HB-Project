@@ -1,5 +1,5 @@
 {% extends 'base.html' %}
-	<body>
+	<body onload="initialize()">
 	{% block body %}
 		<div id="nav">
 			<div id="title-container">
@@ -15,7 +15,11 @@
 		</div>
 		
 		<div id="map-container">
-			<div id="map-canvas" />
+			<div id="map-canvas" /></div>
+			<div>
+				<input id="address" type="textbox" value="San Francisco, CA">
+				<input type="button" value="Encode" onclick="codeAddress()">
+			</div>
 		</div>
 		
 		<div id="graph-container">
