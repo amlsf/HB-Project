@@ -1,6 +1,7 @@
 var geocoder;
 var map;
 
+// Initializes map and centers on given coordinates
 function initialize() {
 	geocoder = new google.maps.Geocoder();
 	var latlng = new google.maps.LatLng(37.7577,-122.4376);
@@ -12,6 +13,7 @@ function initialize() {
 	map = new google.maps.Map(document.getElementById('map-canvas'), mapOptions);
 }
 
+// Geocoding function
 function codeAddress() {
 	var address = document.getElementById('address').value;
 	geocoder.geocode( {'address':address}, function(results,status) {
@@ -28,13 +30,3 @@ function codeAddress() {
 }
 
 google.maps.event.addDomListener(window, 'load', initialize);
-
-// function initialize() {
-//     var mapOptions = {
-//         center: new google.maps.LatLng(37.7577,-122.4376),
-//         zoom: 12,
-//         mapTypeId: google.maps.MapTypeId.ROADMAP
-//     };
-//     var map = new google.maps.Map(document.getElementById("map-canvas"), mapOptions);
-// }
-// google.maps.event.addDomListener(window, 'load', initialize);

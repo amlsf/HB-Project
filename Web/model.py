@@ -5,10 +5,11 @@ import config
 from sqlalchemy.ext.declarative import declarative_base
 from sqlalchemy import create_engine, ForeignKey
 from sqlalchemy import Column, Integer, String, DateTime, Text
-
 from sqlalchemy.orm import sessionmaker, scoped_session, relationship, backref
 
 from flask.ext.login import UserMixin
+
+from pygeocoder import Geocoder
 
 engine = create_engine(config.DB_URI, echo=False) 
 session = scoped_session(sessionmaker(bind=engine,
@@ -32,10 +33,9 @@ class User(Base):
 class Location(Base):
     __tablename__ = "location"
     id = Column(Integer, primary_key=True)
-    address = Column(String(140), nullable=False)
-    city = Column(String(140), nullable=False)
-    state = Column(String(64), nullable=False)
-    zipcode = Column(String(64), nullable=False)
+    full_address = Column(String(300), nullable=False)
+    lat = Column(Integer, nullable=False)
+    lng = Column(Integer, nullable=False)
 
 # ------- Supply -------
 class Supply(Base):

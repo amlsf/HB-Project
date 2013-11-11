@@ -6,6 +6,8 @@ from flaskext.markdown import Markdown
 # import forms
 import model
 
+from geopy import geocoders
+
 app = Flask(__name__)
 # app.config.from_object(config)
 
@@ -44,7 +46,12 @@ def submit():
     city = request.form.get("city")
     state = request.form.get("state")
     zipcode = request.form.get("zipcode")
-    full_address = address + city + state + zipcode
+    result = address + city + state + zipcode
+    geo = geocoders.GoogleV3()
+    new_result, (lat, lng) = geo.geocode(result)
+    full_address = str(new_result[0])
+    lat = (lat, lng)[0]
+    lng = (lat, lng)[1]
 
     # ----- supply -----
     supply_type = request.form.get("supply_type")
@@ -54,7 +61,7 @@ def submit():
     comment = request.form.get("comment")
 
     user = model.User(first_name=first_name, last_name=last_name, email=email, phone_num=phone_num)
-    location = model.Location(address=address, city=city, state=state, zipcode=zipcode)
+    location = model.Location(full_address=full_address, lat=lat, lng=lng)
     supply = model.Supply(supply_type=supply_type, supply_amount=supply_amount)
     comment = model.Comment(extra_comment=comment)
 
@@ -64,7 +71,7 @@ def submit():
     model.session.add(comment)
     model.session.commit()
 
-    return render_template("add_to_db.html", first_name=first_name, last_name=last_name, email=email, phone_num=phone_num, address=address, city=city, state=state, zipcode=zipcode, supply_type=supply_type, supply_amount=supply_amount, extra_comment=comment)
+    return render_template("add_to_db.html", first_name=first_name, last_name=last_name, email=email, phone_num=phone_num, full_address=full_address, lat=lat, lng=lng, supply_type=supply_type, supply_amount=supply_amount)
 
 @app.route("/about")
 def about():
