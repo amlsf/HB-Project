@@ -1,0 +1,46 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+  <head>
+    <title>Maps Example</title>
+
+    <?php $db = sqlite_connect("localhost","dbusername","dbpassword");
+    sqlite_select_db("prepared.db", $db); ?>
+
+    <script src="http://maps.google.com/maps?file=api&amp;v=2&amp;key=ENTER API KEY HERE" type="text/javascript"></script>
+    <script type="text/javascript">
+
+    function createMarker(point,html) {
+      var marker = new GMarker(point);
+      GEvent.addListener(marker,"click",function() {
+        top.location = "http://www.awebsite.com/show_marker.php?country=" + point
+      });
+      return marker;
+    }
+
+    function initialize() {
+      if (GBrowserIsCompatible()) {
+        var map = new GMap2(document.getElementById("map_canvas"), {size: new GSize(580,400) });
+        map.removeMapType(G_HYBRID_MAP);
+        map.setCenter(new GLatLng(-3.703250,40.416741,0), 1);
+        var mapControl = new GMapTypeControl();
+        map.addControl(mapControl);
+        map.addControl(new GLargeMapControl());
+
+        <? $exe1="SELECT lat,lon FROM map";
+        $result1 = mysql_query($exe1, $db)or die(mysql_error()); 
+
+        while(list($lat,$long) = mysql_fetch_row($result1)) { 
+          echo "\n var point = new GLatLng(".$lat.",".$long.");\n";
+          echo "var marker = createMarker(point,'');\n";
+          echo "map.addOverlay(marker);\n";
+          echo "\n";
+        }
+        ?> 
+      }
+    }
+    </script>
+  </head>
+
+  <body onload="initialize()" onunload="GUnload()">
+    <div id="map_canvas" style="width: 580px; height: 300px"></div>            
+  </body>
+</html>

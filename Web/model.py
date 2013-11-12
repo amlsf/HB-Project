@@ -6,10 +6,8 @@ from sqlalchemy.ext.declarative import declarative_base
 from sqlalchemy import create_engine, ForeignKey
 from sqlalchemy import Column, Integer, String, DateTime, Text
 from sqlalchemy.orm import sessionmaker, scoped_session, relationship, backref
-
 from flask.ext.login import UserMixin
 
-from pygeocoder import Geocoder
 
 engine = create_engine(config.DB_URI, echo=False) 
 session = scoped_session(sessionmaker(bind=engine,

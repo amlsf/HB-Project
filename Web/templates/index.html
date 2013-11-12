@@ -1,5 +1,5 @@
 {% extends 'base.html' %}
-	<body onload="initialize()">
+	<body>
 	{% block body %}
 		<div id="nav">
 			<div id="title-container">
@@ -14,16 +14,36 @@
 			</div>
 		</div>
 		
-		<!-- Map -->
-		<div id="map-container">
-			<div id="map-canvas" /></div>
-			<div>
-				<input id="address" type="textbox" value="address">
-				<input type="button" value="Encode" onclick="codeAddress()">
-			</div>
+		<!-- Leaflet Map -->
+		<div id="map">
+	        <script src="static/js/leaflet.js"></script>
+			<script>
+				var address = '{{ full_address }}';
+				var map = L.map('map').setView([37.7528, -122.444], 12);
+
+				// Remove API key before pushing to Github
+				L.tileLayer('http://{s}.tile.cloudmade.com/API_KEY/997/256/{z}/{x}/{y}.png', {
+					maxZoom: 18,
+					attribution: 'Map data &copy; <a href="http://openstreetmap.org">OpenStreetMap</a> contributors, <a href="http://creativecommons.org/licenses/by-sa/2.0/">CC-BY-SA</a>, Imagery © <a href="http://cloudmade.com">CloudMade</a>'
+				}).addTo(map);
+
+				L.marker([37.7528, -122.444]).addTo(map)
+					.bindPopup("You are here.").openPopup();
+
+				var popup = L.popup();
+
+				function onMapClick(e) {
+					popup
+						.setLatLng(e.latlng)
+						.setContent("You clicked the map at " + e.latlng.toString())
+						.openOn(map);
+				}
+
+				map.on('click', onMapClick);
+			</script>
 		</div>
 		
-		<!-- Graph -->
+		<!-- Rickshaw JS Graph -->
 		<div id="graph-container">
 			<div id="chart_container">
 				<div id="chart"></div>
@@ -35,6 +55,7 @@
 			</div>
 			<script type="text/javascript" src="static/js/graph.js"></script>
 		</div>
+
 	{% endblock %}
 	</body>
 </html>

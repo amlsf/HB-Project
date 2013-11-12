@@ -47,11 +47,12 @@ def submit():
     state = request.form.get("state")
     zipcode = request.form.get("zipcode")
     result = address + city + state + zipcode
+    # ensures address is formatted correctly
     geo = geocoders.GoogleV3()
-    new_result, (lat, lng) = geo.geocode(result)
-    full_address = str(new_result[0])
-    lat = (lat, lng)[0]
-    lng = (lat, lng)[1]
+    format_result, (lat, lng) = geo.geocode(result)
+    full_address = str(format_result)
+    lat = lat
+    lng = lng
 
     # ----- supply -----
     supply_type = request.form.get("supply_type")
@@ -71,7 +72,9 @@ def submit():
     model.session.add(comment)
     model.session.commit()
 
-    return render_template("add_to_db.html", first_name=first_name, last_name=last_name, email=email, phone_num=phone_num, full_address=full_address, lat=lat, lng=lng, supply_type=supply_type, supply_amount=supply_amount)
+    return redirect(url_for("index"))
+
+    # return render_template("add_to_db.html", first_name=first_name, last_name=last_name, email=email, phone_num=phone_num, full_address=full_address, lat=lat, lng=lng, supply_type=supply_type, supply_amount=supply_amount)
 
 @app.route("/about")
 def about():
@@ -80,7 +83,6 @@ def about():
 @app.route("/archive")
 def archive():
     return render_template("archive.html")
-
 
 if __name__ == "__main__":
     app.run(debug=True)

@@ -16,7 +16,7 @@ function initialize() {
 // Geocoding function
 function codeAddress() {
 	var address = document.getElementById('address').value;
-	geocoder.geocode( {'address':address}, function(results,status) {
+	geocoder.geocode( {'address':formatted_address}, function(results,status) {
 		if (status == google.maps.GeocoderStatus.OK) {
 			map.setCenter(results[0].geometry.location);
 			var marker = new google.maps.Marker({
