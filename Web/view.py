@@ -6,7 +6,7 @@ from flaskext.markdown import Markdown
 # import forms
 import model
 
-from geopy import geocoders
+from pygeocoder import Geocoder
 
 app = Flask(__name__)
 # app.config.from_object(config)
@@ -46,14 +46,14 @@ def submit():
     city = request.form.get("city")
     state = request.form.get("state")
     zipcode = request.form.get("zipcode")
-    result = address + city + state + zipcode
+    result = address + " " + city + " " + state + " " + zipcode
     # ensures address is formatted correctly
-    geo = geocoders.GoogleV3()
-    format_result, (lat, lng) = geo.geocode(result)
-    full_address = str(format_result)
-    lat = lat
-    lng = lng
-
+    new_result = Geocoder.geocode(result)
+    lat_lng = new_result.coordinates
+    lat = lat_lng[0]
+    lng = lat_lng[1]
+    full_address = str(new_result)
+    
     # ----- supply -----
     supply_type = request.form.get("supply_type")
     supply_amount = request.form.get("supply_amount")

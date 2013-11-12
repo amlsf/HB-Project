@@ -18,28 +18,62 @@
 		<div id="map">
 	        <script src="static/js/leaflet.js"></script>
 			<script>
-				var address = '{{ full_address }}';
+				// Centers map on this point
 				var map = L.map('map').setView([37.7528, -122.444], 12);
 
 				// Remove API key before pushing to Github
-				L.tileLayer('http://{s}.tile.cloudmade.com/API_KEY/997/256/{z}/{x}/{y}.png', {
+
+				// Tiling map
+				L.tileLayer('http://{s}.tile.cloudmade.com/38be25219f7c4b6f8953354a1b2e583f/997/256/{z}/{x}/{y}.png', {
 					maxZoom: 18,
 					attribution: 'Map data &copy; <a href="http://openstreetmap.org">OpenStreetMap</a> contributors, <a href="http://creativecommons.org/licenses/by-sa/2.0/">CC-BY-SA</a>, Imagery © <a href="http://cloudmade.com">CloudMade</a>'
 				}).addTo(map);
 
+				// Placing marker with pop-up
 				L.marker([37.7528, -122.444]).addTo(map)
-					.bindPopup("You are here.").openPopup();
+					.bindPopup("#1");
 
-				var popup = L.popup();
+				L.marker([37.77858, -122.42168]).addTo(map)
+					.bindPopup("#2");
 
-				function onMapClick(e) {
-					popup
-						.setLatLng(e.latlng)
-						.setContent("You clicked the map at " + e.latlng.toString())
-						.openOn(map);
-				}
+				L.marker([37.78, -122.5]).addTo(map)
+					.bindPopup("#3");
 
-				map.on('click', onMapClick);
+				L.marker([37.717368, -122.480763]).addTo(map)
+					.bindPopup("#4");
+
+				// Bike Racks
+				var supplyIcon = L.icon({
+					iconUrl: 'marker-icon.png',
+					iconSize: [24, 28],
+					iconAnchor: [12, 28],
+					popupAnchor: [0, -25]
+				});
+
+				supply = new L.geoJson(null, {
+					pointToLayer: function (feature, latlng) {
+					  return L.marker(latlng, {
+					    icon: supplyIcon,
+					    title: feature.properties.address
+					  });
+					},
+					onEachFeature: function (feature, layer) {
+					  if (feature.properties) {
+					    var content = '<table border="1" style="border-collapse:collapse;" cellpadding="2">' +
+					        '<tr>' + '<th>ID</th>' + '<td>' + feature.properties.id + '</td>' + '</tr>' +
+					        '<tr>' + '<th>Name</th>' + '<td>' + feature.properties.name + '</td>' + '</tr>' +
+					        '<tr>' + '<th>Address</th>' + '<td>' + feature.properties.address + '</td>' + '</tr>' +
+					        '<tr>' + '<th>Town</th>' + '<td>' + feature.properties.town + '</td>' + '</tr>' +
+					        '<table>';
+					    layer.bindPopup(content);
+					  }
+					}
+				});
+				$.getJSON("bikeRacks_geojson.php", function (data) {
+			  		bikeRacks.addData(data);
+				}).complete(function () {
+			    	map.fitBounds(bikeRacks.getBounds());
+				});
 			</script>
 		</div>
 		
