@@ -53,7 +53,7 @@ def submit():
     lat = lat_lng[0]
     lng = lat_lng[1]
     full_address = str(new_result)
-    
+
     # ----- supply -----
     supply_type = request.form.get("supply_type")
     supply_amount = request.form.get("supply_amount")
@@ -83,6 +83,10 @@ def about():
 @app.route("/archive")
 def archive():
     return render_template("archive.html")
+
+@app.route("/ajaxform")
+def ajax_form():
+    return render_template("ajax_form.html")
 
 if __name__ == "__main__":
     app.run(debug=True)

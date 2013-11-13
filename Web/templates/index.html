@@ -16,7 +16,9 @@
 		
 		<!-- Leaflet Map -->
 		<div id="map">
+			<script src="sqlite_to_json.js"></script>
 	        <script src="static/js/leaflet.js"></script>
+
 			<script>
 				// Centers map on this point
 				var map = L.map('map').setView([37.7528, -122.444], 12);
@@ -42,38 +44,6 @@
 				L.marker([37.717368, -122.480763]).addTo(map)
 					.bindPopup("#4");
 
-				// Bike Racks
-				var supplyIcon = L.icon({
-					iconUrl: 'marker-icon.png',
-					iconSize: [24, 28],
-					iconAnchor: [12, 28],
-					popupAnchor: [0, -25]
-				});
-
-				supply = new L.geoJson(null, {
-					pointToLayer: function (feature, latlng) {
-					  return L.marker(latlng, {
-					    icon: supplyIcon,
-					    title: feature.properties.address
-					  });
-					},
-					onEachFeature: function (feature, layer) {
-					  if (feature.properties) {
-					    var content = '<table border="1" style="border-collapse:collapse;" cellpadding="2">' +
-					        '<tr>' + '<th>ID</th>' + '<td>' + feature.properties.id + '</td>' + '</tr>' +
-					        '<tr>' + '<th>Name</th>' + '<td>' + feature.properties.name + '</td>' + '</tr>' +
-					        '<tr>' + '<th>Address</th>' + '<td>' + feature.properties.address + '</td>' + '</tr>' +
-					        '<tr>' + '<th>Town</th>' + '<td>' + feature.properties.town + '</td>' + '</tr>' +
-					        '<table>';
-					    layer.bindPopup(content);
-					  }
-					}
-				});
-				$.getJSON("bikeRacks_geojson.php", function (data) {
-			  		bikeRacks.addData(data);
-				}).complete(function () {
-			    	map.fitBounds(bikeRacks.getBounds());
-				});
 			</script>
 		</div>
 		
