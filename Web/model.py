@@ -8,7 +8,6 @@ from sqlalchemy import Column, Integer, String, DateTime, Text
 from sqlalchemy.orm import sessionmaker, scoped_session, relationship, backref
 from flask.ext.login import UserMixin
 
-
 engine = create_engine(config.DB_URI, echo=False) 
 session = scoped_session(sessionmaker(bind=engine,
                          autocommit = False,
@@ -16,7 +15,6 @@ session = scoped_session(sessionmaker(bind=engine,
 
 Base = declarative_base()
 Base.query = session.query_property()
-
 
 # ------- User info ------- 
 class User(Base):

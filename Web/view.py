@@ -5,6 +5,10 @@ from flaskext.markdown import Markdown
 # import config
 # import forms
 import model
+from model import User, Location, Supply, Comment
+import json
+
+from sqlalchemy.orm import sessionmaker, scoped_session, relationship, backref
 
 from pygeocoder import Geocoder
 
@@ -25,8 +29,27 @@ app = Flask(__name__)
 # Markdown(app)
 
 @app.route("/")
-def index():
-    return render_template("index.html")
+def index():    
+    # pull info from database
+    location = model.session.query(Location).get(1)
+    lat_coordinate = location.lat
+    lng_coordinate = location.lng
+    address = location.full_address
+
+    # location = Location.query.all()
+    # lat_coordinate = location[0].lat
+    # lng_coordinate = location[1].lng
+    # address = location[2].full_address
+
+    # create list of what needs to be displayed
+    single_location = [lat_coordinate, lng_coordinate, address]
+    location_list = [single_location]
+
+    # to JSON for leaflet
+    my_json = json.dumps(location_list)
+
+    return render_template("index.html", my_json=my_json)
+
 
 @app.route("/form")
 def form():
@@ -61,10 +84,10 @@ def submit():
     # ----- comment -----
     comment = request.form.get("comment")
 
-    user = model.User(first_name=first_name, last_name=last_name, email=email, phone_num=phone_num)
-    location = model.Location(full_address=full_address, lat=lat, lng=lng)
-    supply = model.Supply(supply_type=supply_type, supply_amount=supply_amount)
-    comment = model.Comment(extra_comment=comment)
+    user = User(first_name=first_name, last_name=last_name, email=email, phone_num=phone_num)
+    location = Location(full_address=full_address, lat=lat, lng=lng)
+    supply = Supply(supply_type=supply_type, supply_amount=supply_amount)
+    comment = Comment(extra_comment=comment)
 
     model.session.add(user)
     model.session.add(location)
@@ -83,10 +106,6 @@ def about():
 @app.route("/archive")
 def archive():
     return render_template("archive.html")
-
-@app.route("/ajaxform")
-def ajax_form():
-    return render_template("ajax_form.html")
 
 if __name__ == "__main__":
     app.run(debug=True)
