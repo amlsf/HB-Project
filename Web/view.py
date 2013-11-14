@@ -30,20 +30,15 @@ app = Flask(__name__)
 
 @app.route("/")
 def index():    
-    # pull info from database
-    location = model.session.query(Location).get(1)
-    lat_coordinate = location.lat
-    lng_coordinate = location.lng
-    address = location.full_address
-
-    # location = Location.query.all()
-    # lat_coordinate = location[0].lat
-    # lng_coordinate = location[1].lng
-    # address = location[2].full_address
-
-    # create list of what needs to be displayed
-    single_location = [lat_coordinate, lng_coordinate, address]
-    location_list = [single_location]
+    locations = Location.query.all()
+    location_list = []
+    
+    for location in locations:
+        lat_coordinate = location.lat
+        lng_coordinate = location.lng
+        address = location.full_address
+        single_location = [lat_coordinate, lng_coordinate, address]
+        location_list.append(single_location)
 
     # to JSON for leaflet
     my_json = json.dumps(location_list)
