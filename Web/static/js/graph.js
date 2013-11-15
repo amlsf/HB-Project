@@ -4,20 +4,14 @@ var palette = new Rickshaw.Color.Palette();
 // set up data series for each supply type - call upon database here
 
 // list of data lists
-var seriesData = [
-	[],		// water
-	[],		// flashlight & batteries
-	[],		// phone charger
-	[],		// first aid kit
-	[]		// food
-];
+var seriesData = [ {{ datapoint_list }} ];
 
 // generates random data for seriesData
-var random = new Rickshaw.Fixtures.RandomData(15);
+// var random = new Rickshaw.Fixtures.RandomData(15);
 
-for (var i=0; i<15; i++) {
-	random.addData(seriesData);
-}
+// for (var i=0; i<15; i++) {
+//	random.addData(seriesData);
+// }
 
 // instantiate the graph
 var graph = new Rickshaw.Graph({

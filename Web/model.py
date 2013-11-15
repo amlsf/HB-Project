@@ -1,6 +1,5 @@
 import config
 # import bcrypt
-# from datetime import datetime
 
 from sqlalchemy.ext.declarative import declarative_base
 from sqlalchemy import create_engine, ForeignKey
@@ -39,7 +38,7 @@ class Supply(Base):
     id = Column(Integer, primary_key=True)
     supply_type = Column(String(140), nullable=False)
     supply_amount = Column(String(140), nullable=True)
-    # date_logged = Column(String(140), nullable=False)
+    date_logged = Column(DateTime, nullable=True)
 
 # ------- Comments -------
 class Comment(Base):

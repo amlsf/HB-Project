@@ -1,16 +1,15 @@
 from flask import Flask, render_template, redirect, request, g, session, url_for, flash
-# from model import User, Post
-from flask.ext.login import LoginManager, login_required, login_user, current_user
-from flaskext.markdown import Markdown
+# from flask.ext.login import LoginManager, login_required, login_user, current_user
+# from flaskext.markdown import Markdown
 # import config
 # import forms
 import model
 from model import User, Location, Supply, Comment
 import json
+import datetime
+from pygeocoder import Geocoder
 
 from sqlalchemy.orm import sessionmaker, scoped_session, relationship, backref
-
-from pygeocoder import Geocoder
 
 app = Flask(__name__)
 # app.config.from_object(config)
@@ -29,7 +28,8 @@ app = Flask(__name__)
 # Markdown(app)
 
 @app.route("/")
-def index():    
+def index():
+    # ----- database to map ----- 
     locations = Location.query.all()
     location_list = []
     
@@ -39,12 +39,10 @@ def index():
         address = location.full_address
         single_location = [lat_coordinate, lng_coordinate, address]
         location_list.append(single_location)
+    # to JSON for Leaflet
+    map_json = json.dumps(location_list)
 
-    # to JSON for leaflet
-    my_json = json.dumps(location_list)
-
-    return render_template("index.html", my_json=my_json)
-
+    return render_template("index.html", map_json=map_json)
 
 @app.route("/form")
 def form():
@@ -75,13 +73,14 @@ def submit():
     # ----- supply -----
     supply_type = request.form.get("supply_type")
     supply_amount = request.form.get("supply_amount")
+    date_logged = datetime.datetime.now()
 
     # ----- comment -----
     comment = request.form.get("comment")
 
     user = User(first_name=first_name, last_name=last_name, email=email, phone_num=phone_num)
     location = Location(full_address=full_address, lat=lat, lng=lng)
-    supply = Supply(supply_type=supply_type, supply_amount=supply_amount)
+    supply = Supply(supply_type=supply_type, supply_amount=supply_amount, date_logged=date_logged)
     comment = Comment(extra_comment=comment)
 
     model.session.add(user)
@@ -101,6 +100,34 @@ def about():
 @app.route("/archive")
 def archive():
     return render_template("archive.html")
+
+@app.route("/graph")
+def graph():
+    points = Supply.query.all()
+    point_list = []
+    
+    for point in points:
+        supply_y = point.supply_amount
+        time_x = point.date_logged
+        coordinates = {"x":time_x, "y":supply_y}
+        point_list.append(coordinates)
+    # to JSON for Rickshaw
+    graph_json = json.dumps(point_list)
+
+    return render_template("db_graph.html", graph_json=graph_json)
+
+def time_elapsed():
+    # set a start point - 2013-01-01 00:00:00.000000 = 1
+    # time elapsed since start point
+    time_dict = {}
+    supply_data = Supply.query.all()
+
+    for time in supply_data:
+        if time > time.date_logged:
+            time_dict[time] = "2013-01-01 00:00:00.000000"
+        else:
+            time_dict[time]
+
 
 if __name__ == "__main__":
     app.run(debug=True)

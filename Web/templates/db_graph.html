@@ -1,0 +1,69 @@
+{% extends 'base.html' %}
+	<body>
+	{% block body %}
+		<div id="nav">
+			<div id="title-container">
+				<div id="title">
+					<a href="/" class="title">Preparely</a>
+				</div>
+			</div>
+			<div id="nav-right">
+				<a href="/form" id="submit-button" class="navright">add to map</a>
+				<a href="/archive" class="navright">archived events</a>
+				<a href="/about" class="navright">about</a>
+			</div>
+		</div>
+
+		<!-- Rickshaw JS Graph -->
+		<div id="graph-container">
+			<div id="chart_container">
+				<div id="chart"></div>
+				<div id="legend_container">
+					<div id="legend"></div>
+				</div>
+			</div>
+			<script>
+				var datapoints = {{ graph_json | safe }};
+				var palette = new Rickshaw.Color.Palette();
+
+				var graph = new Rickshaw.Graph({
+					element: document.getElementById("chart"),
+					width: 960,
+					height: 300,
+					renderer: "line",
+					series: [
+						{
+							name: "water",
+							color: palette.color(),
+							data: datapoints
+						}
+					]
+				});
+				// time on x-axis
+				var x_axis = new Rickshaw.Graph.Axis.Time({
+					graph: graph
+				});
+				// formatted number of y-axis
+				var y_axis = new Rickshaw.Graph.Axis.Y({
+					graph: graph,
+					orientation: 'left',
+					tickFormat: Rickshaw.Fixtures.Number.formatKMBT,
+					element: document.getElementById('y-axis')
+				});
+				var hoverDetail = new Rickshaw.Graph.HoverDetail({
+					graph: graph
+				})
+				var legend = new Rickshaw.Graph.Legend({
+					graph: graph,
+					element: document.getElementById('legend')
+				});
+				var shelving = new Rickshaw.Graph.Behavior.Series.Toggle({
+					graph: graph,
+					legend: legend
+				});
+				graph.render();
+			</script>
+		</div>
+	{% endblock %}
+	</body>
+</html>
