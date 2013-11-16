@@ -37,7 +37,7 @@ class Supply(Base):
     __tablename__ = "supply"
     id = Column(Integer, primary_key=True)
     supply_type = Column(String(140), nullable=False)
-    supply_amount = Column(String(140), nullable=True)
+    supply_amount = Column(Integer, nullable=True)
     date_logged = Column(DateTime, nullable=True)
 
 # ------- Comments -------

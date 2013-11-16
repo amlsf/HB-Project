@@ -91,8 +91,6 @@ def submit():
 
     return redirect(url_for("index"))
 
-    # return render_template("add_to_db.html", first_name=first_name, last_name=last_name, email=email, phone_num=phone_num, full_address=full_address, lat=lat, lng=lng, supply_type=supply_type, supply_amount=supply_amount)
-
 @app.route("/about")
 def about():
     return render_template("about.html")
@@ -103,31 +101,24 @@ def archive():
 
 @app.route("/graph")
 def graph():
-    points = Supply.query.all()
-    point_list = []
+    d = {}
+    data = Supply.query.all()
     
-    for point in points:
-        supply_y = point.supply_amount
-        time_x = point.date_logged
-        coordinates = {"x":time_x, "y":supply_y}
-        point_list.append(coordinates)
-    # to JSON for Rickshaw
-    graph_json = json.dumps(point_list)
-
-    return render_template("db_graph.html", graph_json=graph_json)
-
-def time_elapsed():
-    # set a start point - 2013-01-01 00:00:00.000000 = 1
-    # time elapsed since start point
-    time_dict = {}
-    supply_data = Supply.query.all()
-
-    for time in supply_data:
-        if time > time.date_logged:
-            time_dict[time] = "2013-01-01 00:00:00.000000"
+    for value in data:
+        amount = value.supply_amount
+        unicode_supply = value.supply_type
+        supply = unicode_supply.encode('ascii', 'ignore')
+        if supply not in d.keys(): 
+            d[supply] = amount
         else:
-            time_dict[time]
+            d[supply] += amount
 
+    keys_list = d.keys()
+    values_list = []
+    for key in keys_list:
+        values_list.append(d[key])
+
+    return render_template("db_graph.html", keys_list=keys_list, values_list=values_list)
 
 if __name__ == "__main__":
     app.run(debug=True)
