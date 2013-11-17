@@ -1,8 +1,9 @@
 from flask import Flask, render_template, redirect, request, g, session, url_for, flash
-# from flask.ext.login import LoginManager, login_required, login_user, current_user
-# from flaskext.markdown import Markdown
-# import config
+from flask.ext.login import LoginManager, login_required, login_user, current_user
+from flaskext.markdown import Markdown
+import config
 # import forms
+
 import model
 from model import User, Location, Supply, Comment
 import json
@@ -12,20 +13,20 @@ from pygeocoder import Geocoder
 from sqlalchemy.orm import sessionmaker, scoped_session, relationship, backref
 
 app = Flask(__name__)
-# app.config.from_object(config)
+app.config.from_object(config)
 
 # Stuff to make login easier
-# login_manager = LoginManager()
-# login_manager.init_app(app)
-# login_manager.login_view = "login"
+login_manager = LoginManager()
+login_manager.init_app(app)
+login_manager.login_view = "login"
 
-# @login_manager.user_loader
-# def load_user(user_id):
-#     return User.query.get(user_id)
+@login_manager.user_loader
+def load_user(user_id):
+    return User.query.get(user_id)
 # End login stuff
 
 # Adding markdown capability to the app
-# Markdown(app)
+Markdown(app)
 
 @app.route("/")
 def index():
