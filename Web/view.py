@@ -2,7 +2,8 @@ from flask import Flask, render_template, redirect, request, g, session, url_for
 from flask.ext.login import LoginManager, login_required, login_user, current_user
 from flaskext.markdown import Markdown
 import config
-# import forms
+import forms
+from forms import RegistrationForm
 
 import model
 from model import User, Location, Supply, Comment
@@ -32,18 +33,33 @@ Markdown(app)
 def index():
     # ----- database to map ----- 
     locations = Location.query.all()
-    location_list = []
-    
+    marker_list = []
+
     for location in locations:
         lat_coordinate = location.lat
         lng_coordinate = location.lng
         address = location.full_address
         single_location = [lat_coordinate, lng_coordinate, address]
-        location_list.append(single_location)
+        marker_list.append(single_location)
     # to JSON for Leaflet
-    map_json = json.dumps(location_list)
+    map_json = json.dumps(marker_list)
 
     return render_template("index.html", map_json=map_json)
+
+@app.route("/cluster")
+def cluster():
+    locations = Location.query.all()
+    marker_list = []
+
+    for location in locations:
+        lat_coordinate = location.lat
+        lng_coordinate = location.lng
+        address = location.full_address
+        single_location = [lat_coordinate, lng_coordinate, address]
+        marker_list.append(single_location)
+    # to JSON for Leaflet
+    marker_json = json.dumps(marker_list)
+    return render_template("cluster.html", marker_json=marker_json)
 
 @app.route("/form")
 def form():
@@ -108,7 +124,7 @@ def graph():
     for value in data:
         amount = value.supply_amount
         unicode_supply = value.supply_type
-        supply = unicode_supply.encode('ascii', 'ignore')
+        supply = unicode_supply.encode("ascii", "ignore")
         if supply not in d.keys(): 
             d[supply] = amount
         else:
@@ -120,6 +136,35 @@ def graph():
         values_list.append(d[key])
 
     return render_template("db_graph.html", keys_list=keys_list, values_list=values_list)
+
+@app.route("/register", methods=["GET","POST"])
+def register():
+    form = RegistrationForm(request.form)
+    if request.method == "POST" and form.validate():
+        user = User(form.username.data, form.email.data, form.password.data)
+        model.session.add(user)
+        flash("Thanks for registering")
+        return redirect(url_for("/"))
+    return render_template("register.html", form=form)
+
+@app.route("/login", methods=["POST"])
+def authenticate():
+    form = forms.LoginForm(request.form)
+    if not form.validate():
+        flash("Incorrect username or password") 
+        return render_template("login.html")
+
+    email = form.email.data
+    password = form.password.data
+
+    user = User.query.filter_by(email=email).first()
+
+    if not user or not user.authenticate(password):
+        flash("Incorrect username or password") 
+        return render_template("login.html")
+
+    login_user(user)
+    return redirect(request.args.get("next", url_for("index")))
 
 if __name__ == "__main__":
     app.run(debug=True)
