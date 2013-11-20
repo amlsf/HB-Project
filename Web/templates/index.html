@@ -8,47 +8,96 @@
 				</div>
 			</div>
 			<div id="nav-right">
-				<a href="/form" id="submit-button" class="navright">add to map</a>
-				<a href="/graph" class="navright">graph</a>
+				<!-- <a href="/form" id="submit-button" class="navright">add to map</a> -->
+				<!-- <a href="/graph" class="navright">graph</a> -->
 				<a href="/archive" class="navright">archived events</a>
 				<a href="/about" class="navright">about</a>
 			</div>
 		</div>
 		
 		<!-- Leaflet Map -->
-		<div id="map">
-	        <script src="static/js/leaflet.js"></script>
+		<script>
+			// Pulling coordinates from database
+			var coordinates = {{ map_json | safe }};
+		</script>
 
-			<script>
-				// Centers map on this point
-				var map = L.map('map').setView([37.7528, -122.444], 12);
+		<div id="container">
+			<div id="container-left">
+				<div id="map"></div>
 
-				// Remove API key before pushing to Github
+				<script>
+				    // Calling map
+				    var map = L.map('map').setView([37.7528, -122.444], 12);
+				    L.tileLayer('http://{s}.tile.cloudmade.com/38be25219f7c4b6f8953354a1b2e583f/112887/256/{z}/{x}/{y}.png', {
+				        maxZoom: 15,
+				        attribution: 'Map data &copy; <a href="http://openstreetmap.org">OpenStreetMap</a> contributors, <a href="http://creativecommons.org/licenses/by-sa/2.0/">CC-BY-SA</a>, Imagery © <a href="http://cloudmade.com">CloudMade</a>'
+				      }).addTo(map);
+				    
+				    // Cluster group
+				    var markers = new L.MarkerClusterGroup({
+				    	disableClusteringAtZoom: 15
+				    });
 
-				// Tiling map with API key and selected style
-				L.tileLayer('http://{s}.tile.cloudmade.com/38be25219f7c4b6f8953354a1b2e583f/997/256/{z}/{x}/{y}.png', {
-					maxZoom: 18,
-					attribution: 'Map data &copy; <a href="http://openstreetmap.org">OpenStreetMap</a> contributors, <a href="http://creativecommons.org/licenses/by-sa/2.0/">CC-BY-SA</a>, Imagery © <a href="http://cloudmade.com">CloudMade</a>'
-				}).addTo(map);
+				    // Defining marker icon
+				    var markerIcon = L.Icon.extend({
+				      // Adding marker shadow option
+				      options: {
+				        shadowUrl: 'static/img/marker-shadow.png'
+				      }
+				    });
+				    var blueIcon = new markerIcon({
+				      iconUrl: 'static/img/marker-icon.png'
+				    });
 
-				// Call upon list of locations
-				var coordinates = {{ map_json | safe }};
+				    // Adding markers from input coordinates
+				    for (var i = 0; i < coordinates.length; i++) {
+				        var a = coordinates[i];
+				        var title = a[2];
+				        var marker = L.marker(new L.LatLng(a[0], a[1]), {
+				            icon: blueIcon,
+				            title: title
+				        });
+				        marker.bindPopup(title);
+				        markers.addLayer(marker);
+				    }
+				    map.addLayer(markers);
+				</script>
+			</div>
 
-				function addMarkers(map, coordinates) {
-					for (var i = 0; i < coordinates.length; i++) {
-						var a = coordinates[i];
-						var popupDetail = a[2];
-						var title = popupDetail;
-						var marker = new L.Marker(new L.LatLng(a[0], a[1]), { 
-							title: title
-						});
-						marker.bindPopup(popupDetail);
-						map.addLayer(marker);         
-					}
-				}
-				addMarkers(map, coordinates);
-			</script>
+			<!-- Form -->
+			<div id="container-right">
+				<form action="/submit" method="POST">
+					<div class="form-left">
+						<label for="first_name">Name</label>
+						<input type="text" class="input" name="name" />
+
+						<label for="email">Email</label>
+						<input type="text" class="input" name="email" />
+
+						<label for="phone_num">Phone Number</label>
+						<input type="text" class="input" name="phone_num" />
+
+						<label for="address">Street Address</label>
+						<input type="text" class="input" name="address" />
+
+						<label for="city">City, State, Zipcode</label>
+						<input type="text" class="input" name="city" />
+
+						<label for="supply_type">Supply Type</label>
+						<!-- <div class="sub-label">(water, food, first aid kit, cell phone charger, or flashlight & batteries)</div> -->
+						<input type="text" class="input" name="supply_type" />
+
+						<label for="comment">Additional Comments</label>
+						<input type="text" class="input-comment" name="comment" />
+					<center>
+						<input type="submit" name="submit" class="btn-style" value="Add to Map" />
+					</center>
+					</div>
+				</form>
+			</div>
+			<div id="clear"></div>
 		</div>
+
 	{% endblock %}
 	</body>
 </html>

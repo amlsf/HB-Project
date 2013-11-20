@@ -1,0 +1,60 @@
+<html>
+<head>
+	<link rel="stylesheet" href="static/css/leaflet.css" />
+    <script src="static/js/leaflet-src.js"></script>
+    <script src="static/js/heatmap.js"></script>
+    <script src="static/js/heatmap-leaflet.js"></script>
+    <script src="static/js/jquery.js"></script>
+
+    <script>
+    $(function() {
+		
+
+		var baseLayer = L.tileLayer(
+			'http://{s}.tile.cloudmade.com/38be25219f7c4b6f8953354a1b2e583f/112887/256/{z}/{x}/{y}.png', {attribution: 'Map data &copy; <a href="http://openstreetmap.org">OpenStreetMap</a> contributors, <a href="http://creativecommons.org/licenses/by-sa/2.0/">CC-BY-SA</a>, Imagery © <a href="http://cloudmade.com">CloudMade</a>',
+				maxZoom: 18
+			});
+		
+		var heatmapLayer = L.TileLayer.heatMap({
+			radius: 20,
+			opacity: 0.8,
+			gradient: {
+				0.45: "rgb(0,0,255)",
+				0.55: "rgb(0,255,255)",
+				0.65: "rgb(0,255,0)",
+				0.95: "yellow",
+				1.0: "rgb(255,0,0)"
+			}
+		});
+		heatmapLayer.addData(coordinates.data);
+
+		var overlayMaps = {
+			'Heatmap': heatmapLayer
+		};
+
+		var controls = L.control.layers(null, overlayMaps, {collapsed: false});
+
+		var map = new L.map('heatmapArea', {
+			center: new L.LatLng(37.7528, -122.444),
+			zoom: 6,
+			layers: [baseLayer, heatmapLayer]
+		});
+
+		controls.addTo(map);
+
+		layer = heatmapLayer;
+	});
+	</script>
+</head>
+
+<body>
+	<script>
+		var coordinates = {
+			max: 46,
+			data: {{ marker_json | safe }}
+		};
+	</script>
+
+	<div id="heatmapArea"></div>
+</body>
+</html>

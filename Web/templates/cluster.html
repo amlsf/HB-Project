@@ -1,58 +1,73 @@
+
 <!DOCTYPE html>
 <html>
 <head>
 <meta charset=utf-8 />
-<title>Leaflet.markercluster</title>
+<title>Marker Clustering</title>
   
   <meta name='viewport' content='width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no' />
-  <script src='//api.tiles.mapbox.com/mapbox.js/v1.4.2/mapbox.js'></script>
-  <link href='//api.tiles.mapbox.com/mapbox.js/v1.4.2/mapbox.css' rel='stylesheet' />
+  <script src="//api.tiles.mapbox.com/mapbox.js/v1.4.2/mapbox.js"></script>
+  <!-- //api.tiles.mapbox.com/mapbox.js/v1.4.2/mapbox.js -->
+  <link href="static/css/leaflet.css" rel="stylesheet" />
+  <!-- //api.tiles.mapbox.com/mapbox.js/v1.4.2/mapbox.css -->
   
   <style>
-    body { margin:0; padding:0; }
-    #map { position:absolute; top:0; bottom:0; width:100%; }
+    body { 
+      margin:0;
+      padding:0;
+    }
+    #map { 
+      position:absolute; 
+      top:0; 
+      bottom:0; 
+      width:100%; 
+    }
   </style>
 </head>
 <body>
-<!--
-  Include Leaflet.markercluster's CSS and JavaScript assets.
-  Unlike mapbox.js, these are not hosted by MapBox; you will
-  need to download and host them yourself.
 
-  Note that the 0.2 release of Leaflet.markercluster is not
-  compatible with the version of Leaflet used by mapbox.js.
-  This example uses assets from the master branch (@ 6fda9a206)
-  of https://github.com/Leaflet/Leaflet.markercluster.
--->
 <link rel="stylesheet" href="static/css/MarkerCluster.css" />
 <link rel="stylesheet" href="static/css/MarkerCluster.Default.css" />
-<!--[if lte IE 8]>
-  <link rel="stylesheet" href="/mapbox.js/assets/MarkerCluster.Default.ie.css" />
-<![endif]-->
 <script src="static/js/leaflet.markercluster.js"></script>
 
-<!-- Example data. -->
-<script src="https://www.mapbox.com/mapbox.js/assets/realworld.388.js"></script>
+<script>
+  // Pulling coordinates from database
+  var coordinates = {{ marker_json | safe }};
+</script>
 
-<div id='map'></div>
+<div id="map"></div>
 
 <script>
-    var map = L.mapbox.map('map', 'examples.map-9ijuk24y')
-        .setView([-37.82, 175.215], 14);
+    // Calling map
+    var map = L.map('map').setView([37.7528, -122.444], 12);
+    L.tileLayer('http://{s}.tile.cloudmade.com/38be25219f7c4b6f8953354a1b2e583f/112887/256/{z}/{x}/{y}.png', {
+        maxZoom: 18,
+        attribution: 'Map data &copy; <a href="http://openstreetmap.org">OpenStreetMap</a> contributors, <a href="http://creativecommons.org/licenses/by-sa/2.0/">CC-BY-SA</a>, Imagery © <a href="http://cloudmade.com">CloudMade</a>'
+      }).addTo(map);
 
+    // Defining marker icon
     var markers = new L.MarkerClusterGroup();
+    var markerIcon = L.Icon.extend({
+      // Adding marker shadow option
+      options: {
+        shadowUrl: 'static/img/marker-shadow.png'
+      }
+    });
+    var blueIcon = new markerIcon({
+      iconUrl: 'static/img/marker-icon.png'
+    });
 
-    for (var i = 0; i < addressPoints.length; i++) {
-        var a = addressPoints[i];
+    // Adding markers from input coordinates
+    for (var i = 0; i < coordinates.length; i++) {
+        var a = coordinates[i];
         var title = a[2];
         var marker = L.marker(new L.LatLng(a[0], a[1]), {
-            icon: L.mapbox.marker.icon({'marker-symbol': 'post', 'marker-color': '0044FF'}),
+            icon: blueIcon,
             title: title
         });
         marker.bindPopup(title);
         markers.addLayer(marker);
     }
-
     map.addLayer(markers);
 </script>
 </body>

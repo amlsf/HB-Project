@@ -46,20 +46,29 @@ def index():
 
     return render_template("index.html", map_json=map_json)
 
-@app.route("/cluster")
-def cluster():
+@app.route("/heatmap")
+def heatmap():
     locations = Location.query.all()
     marker_list = []
+    d = {}
 
     for location in locations:
         lat_coordinate = location.lat
         lng_coordinate = location.lng
-        address = location.full_address
-        single_location = [lat_coordinate, lng_coordinate, address]
-        marker_list.append(single_location)
+
+        d['lat'] = lat_coordinate
+        d['lon'] = lng_coordinate
+        d['value'] = 1
+
+        marker_list.append(d.copy())
+
+    print "***********************"
+    print marker_list
+    
     # to JSON for Leaflet
     marker_json = json.dumps(marker_list)
-    return render_template("cluster.html", marker_json=marker_json)
+
+    return render_template("heatmap.html", marker_json=marker_json)
 
 @app.route("/form")
 def form():
