@@ -46,40 +46,39 @@ def index():
 
     return render_template("index.html", map_json=map_json)
 
-@app.route("/heatmap")
-def heatmap():
-    locations = Location.query.all()
-    marker_list = []
-    d = {}
+# @app.route("/heatmap")
+# def heatmap():
+#     locations = Location.query.all()
+#     marker_list = []
+#     d = {}
 
-    for location in locations:
-        lat_coordinate = location.lat
-        lng_coordinate = location.lng
+#     for location in locations:
+#         lat_coordinate = location.lat
+#         lng_coordinate = location.lng
 
-        d['lat'] = lat_coordinate
-        d['lon'] = lng_coordinate
-        d['value'] = 1
+#         d['lat'] = lat_coordinate
+#         d['lon'] = lng_coordinate
+#         d['value'] = 1
 
-        marker_list.append(d.copy())
+#         marker_list.append(d.copy())
 
-    print "***********************"
-    print marker_list
+#     print "***********************"
+#     print marker_list
     
-    # to JSON for Leaflet
-    marker_json = json.dumps(marker_list)
+#     # to JSON for Leaflet
+#     marker_json = json.dumps(marker_list)
 
-    return render_template("heatmap.html", marker_json=marker_json)
+#     return render_template("heatmap.html", marker_json=marker_json)
 
-@app.route("/form")
-def form():
-    return render_template("form.html")
+# @app.route("/form")
+# def form():
+#     return render_template("form.html")
 
 @app.route("/submit", methods=["POST"])
 def submit():
 
     # ----- user -----
-    first_name = request.form.get("first_name")
-    last_name = request.form.get("last_name")
+    name = request.form.get("name")
     email = request.form.get("email")
     phone_num = request.form.get("phone_num")
 
@@ -98,15 +97,14 @@ def submit():
 
     # ----- supply -----
     supply_type = request.form.get("supply_type")
-    supply_amount = request.form.get("supply_amount")
     date_logged = datetime.datetime.now()
 
     # ----- comment -----
     comment = request.form.get("comment")
 
-    user = User(first_name=first_name, last_name=last_name, email=email, phone_num=phone_num)
+    user = User(name=name, email=email, phone_num=phone_num)
     location = Location(full_address=full_address, lat=lat, lng=lng)
-    supply = Supply(supply_type=supply_type, supply_amount=supply_amount, date_logged=date_logged)
+    supply = Supply(supply_type=supply_type, date_logged=date_logged)
     comment = Comment(extra_comment=comment)
 
     model.session.add(user)
@@ -146,34 +144,34 @@ def graph():
 
     return render_template("db_graph.html", keys_list=keys_list, values_list=values_list)
 
-@app.route("/register", methods=["GET","POST"])
-def register():
-    form = RegistrationForm(request.form)
-    if request.method == "POST" and form.validate():
-        user = User(form.username.data, form.email.data, form.password.data)
-        model.session.add(user)
-        flash("Thanks for registering")
-        return redirect(url_for("/"))
-    return render_template("register.html", form=form)
+# @app.route("/register", methods=["GET","POST"])
+# def register():
+#     form = RegistrationForm(request.form)
+#     if request.method == "POST" and form.validate():
+#         user = User(form.username.data, form.email.data, form.password.data)
+#         model.session.add(user)
+#         flash("Thanks for registering")
+#         return redirect(url_for("/"))
+#     return render_template("register.html", form=form)
 
-@app.route("/login", methods=["POST"])
-def authenticate():
-    form = forms.LoginForm(request.form)
-    if not form.validate():
-        flash("Incorrect username or password") 
-        return render_template("login.html")
+# @app.route("/login", methods=["POST"])
+# def authenticate():
+#     form = forms.LoginForm(request.form)
+#     if not form.validate():
+#         flash("Incorrect username or password") 
+#         return render_template("login.html")
 
-    email = form.email.data
-    password = form.password.data
+#     email = form.email.data
+#     password = form.password.data
 
-    user = User.query.filter_by(email=email).first()
+#     user = User.query.filter_by(email=email).first()
 
-    if not user or not user.authenticate(password):
-        flash("Incorrect username or password") 
-        return render_template("login.html")
+#     if not user or not user.authenticate(password):
+#         flash("Incorrect username or password") 
+#         return render_template("login.html")
 
-    login_user(user)
-    return redirect(request.args.get("next", url_for("index")))
+#     login_user(user)
+#     return redirect(request.args.get("next", url_for("index")))
 
 if __name__ == "__main__":
     app.run(debug=True)

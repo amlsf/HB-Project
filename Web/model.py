@@ -19,25 +19,23 @@ Base.query = session.query_property()
 class User(Base):
     __tablename__ = "users" 
     id = Column(Integer, primary_key=True)
-    first_name = Column(String(140), nullable=False)
-    last_name = Column(String(140), nullable=False)
-    email = Column(String(140), nullable=False)
-    phone_num = Column(String(140), nullable=False)
+    name = Column(String(140), nullable=True)
+    email = Column(String(140), nullable=True)
+    phone_num = Column(String(140), nullable=True)
 
 # ------- Location -------
 class Location(Base):
     __tablename__ = "location"
     id = Column(Integer, primary_key=True)
-    full_address = Column(String(300), nullable=False)
-    lat = Column(Integer, nullable=False)
-    lng = Column(Integer, nullable=False)
+    full_address = Column(String(300), nullable=True)
+    lat = Column(Integer, nullable=True)
+    lng = Column(Integer, nullable=True)
 
 # ------- Supply -------
 class Supply(Base):
     __tablename__ = "supply"
     id = Column(Integer, primary_key=True)
-    supply_type = Column(String(140), nullable=False)
-    supply_amount = Column(Integer, nullable=True)
+    supply_type = Column(String(140), nullable=True)
     date_logged = Column(DateTime, nullable=True)
 
 # ------- Comments -------
