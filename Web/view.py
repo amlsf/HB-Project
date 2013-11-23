@@ -1,37 +1,41 @@
-from flask import Flask, render_template, redirect, request, g, session, url_for, flash
-from flask.ext.login import LoginManager, login_required, login_user, current_user
-from flaskext.markdown import Markdown
+from flask import Flask, Response, render_template, redirect, request, g, session, url_for, flash
+# from flask.ext.login import LoginManager, login_required, login_user, current_user
+# from flaskext.markdown import Markdown
 import config
-import forms
-from forms import RegistrationForm
+# import forms
+# from forms import RegistrationForm
 
+from sqlalchemy.orm import sessionmaker, scoped_session, relationship, backref
+
+import util
+
+from twilio.rest import TwilioRestClient
 import model
 from model import User, Location, Supply, Comment
 import json
 import datetime
 from pygeocoder import Geocoder
 
-from sqlalchemy.orm import sessionmaker, scoped_session, relationship, backref
-
 app = Flask(__name__)
 app.config.from_object(config)
 
 # Stuff to make login easier
-login_manager = LoginManager()
-login_manager.init_app(app)
-login_manager.login_view = "login"
+# login_manager = LoginManager()
+# login_manager.init_app(app)
+# login_manager.login_view = "login"
 
-@login_manager.user_loader
-def load_user(user_id):
-    return User.query.get(user_id)
+# @login_manager.user_loader
+# def load_user(user_id):
+#     return User.query.get(user_id)
 # End login stuff
 
 # Adding markdown capability to the app
-Markdown(app)
+# Markdown(app)
 
+# --------- MAIN PAGE ---------
 @app.route("/")
 def index():
-    # ----- database to map ----- 
+    # database to map
     locations = Location.query.all()
     marker_list = []
 
@@ -46,34 +50,20 @@ def index():
 
     return render_template("index.html", map_json=map_json)
 
-# @app.route("/heatmap")
-# def heatmap():
-#     locations = Location.query.all()
-#     marker_list = []
-#     d = {}
 
-#     for location in locations:
-#         lat_coordinate = location.lat
-#         lng_coordinate = location.lng
+@app.route("/incoming/sms", methods=["GET"])
+def incoming_sms():
+    print "FORM", request.form
+    print "ARGS", request.args
+    print request.args['FromCity']
+    return "Hi"
 
-#         d['lat'] = lat_coordinate
-#         d['lon'] = lng_coordinate
-#         d['value'] = 1
-
-#         marker_list.append(d.copy())
-
-#     print "***********************"
-#     print marker_list
-    
-#     # to JSON for Leaflet
-#     marker_json = json.dumps(marker_list)
-
-#     return render_template("heatmap.html", marker_json=marker_json)
-
+# --------- WEB FORM ---------
 # @app.route("/form")
 # def form():
 #     return render_template("form.html")
 
+# Web form submit
 @app.route("/submit", methods=["POST"])
 def submit():
 
@@ -115,34 +105,65 @@ def submit():
 
     return redirect(url_for("index"))
 
+# use heatmap layer to show affected areas
+# @app.route("/heatmap")
+# def heatmap():
+#     locations = Location.query.all()
+#     marker_list = []
+#     d = {}
+
+#     for location in locations:
+#         lat_coordinate = location.lat
+#         lng_coordinate = location.lng
+
+#         d['lat'] = lat_coordinate
+#         d['lon'] = lng_coordinate
+#         d['value'] = 1
+
+#         marker_list.append(d.copy())
+
+#     print "***********************"
+#     print marker_list
+    
+#     # to JSON for Leaflet
+#     marker_json = json.dumps(marker_list)
+
+#     return render_template("heatmap.html", marker_json=marker_json)
+
+
+# --------- ABOUT ---------
 @app.route("/about")
 def about():
     return render_template("about.html")
 
+
+# --------- ARCHIVE ---------
 @app.route("/archive")
 def archive():
     return render_template("archive.html")
 
-@app.route("/graph")
-def graph():
-    d = {}
-    data = Supply.query.all()
+
+# --------- GRAPH ---------
+# @app.route("/graph")
+# def graph():
+#     d = {}
+#     data = Supply.query.all()
     
-    for value in data:
-        amount = value.supply_amount
-        unicode_supply = value.supply_type
-        supply = unicode_supply.encode("ascii", "ignore")
-        if supply not in d.keys(): 
-            d[supply] = amount
-        else:
-            d[supply] += amount
+#     for value in data:
+#         amount = value.supply_amount
+#         unicode_supply = value.supply_type
+#         supply = unicode_supply.encode("ascii", "ignore")
+#         if supply not in d.keys(): 
+#             d[supply] = amount
+#         else:
+#             d[supply] += amount
 
-    keys_list = d.keys()
-    values_list = []
-    for key in keys_list:
-        values_list.append(d[key])
+#     keys_list = d.keys()
+#     values_list = []
+#     for key in keys_list:
+#         values_list.append(d[key])
 
-    return render_template("db_graph.html", keys_list=keys_list, values_list=values_list)
+#     return render_template("db_graph.html", keys_list=keys_list, values_list=values_list)
 
 # @app.route("/register", methods=["GET","POST"])
 # def register():
@@ -175,3 +196,4 @@ def graph():
 
 if __name__ == "__main__":
     app.run(debug=True)
+    # util.retrieve()

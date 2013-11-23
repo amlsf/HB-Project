@@ -47,19 +47,6 @@ class Comment(Base):
 # ------- Creates DB tables -------
 def create_tables():
     Base.metadata.create_all(engine)
-
-    user = User()
-    session.add(user)
-
-    location = Location()
-    session.add(location)
-    
-    supply = Supply()
-    session.add(supply)
-    
-    comment = Comment()
-    session.add(comment)
-
     session.commit()
 
 if __name__ == "__main__":
