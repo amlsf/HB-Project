@@ -1,1 +1,0 @@
-# Simulation for earthquake in SF
