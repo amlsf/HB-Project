@@ -7,7 +7,7 @@
 /******* GLOBAL *******/
 
 html {
-	overflow: hidden;
+	overflow: auto;
 }
 
 body {
@@ -20,42 +20,100 @@ ul {
 }
 
 p {
-	font: 13px/18px "Opens Sans", Arial, sans-serif;
+	font: 13px/18px "Open Sans", Arial, sans-serif;
+}
+
+a {
+	text-decoration: none;
+	color: #4cb1d7;
+}
+
+a:hover {
+	text-decoration: underline;
+}
+
+/******* MAP CONTENT *******/
+
+#content-wrapper {
+	float: left;
+	width: 100%;
+}
+
+#map {
+	width: 100%;
+	height: 100%;
+	top: 0;
+	bottom: 0;
+}
+
+.overlay {
+	position: absolute; 
+	padding: 10px;
+	font: 14px/16px "Open Sans", Arial, sans-serif;
+	background-color: rgba(46, 46, 46, 0.45);
+	border-radius: 4px 3px 6px / 0 0 4px 0;
+	color: #fff;
+	font-weight: normal;
+}
+
+.title {
+	text-align: center;
+	top: 0;
+	left: 350px;
 }
 
 
-/******* SIDEBAR *******/
+/******* SIDEBAR & NAV *******/
 
 #sidebar {
 	background: #fff;
 	/*border-left: 1px solid #b7b7b7;*/
 	float: right;
-	right: 350px;
-	margin-right: -350px;
+/*	right: 350px;
+	margin-right: -350px;*/
 	position: absolute;
 	width: 350px;
 	overflow-y: auto;
+	opacity: 0.85;
+	box-shadow: 0 0 15px rgba(0, 0, 0, 0.15);
 }
 
 #title-image {
-	margin: 25px 0 25px 0;
+	margin: 35px 0 40px 0;
 	border: 0;
 	text-align: center;
 }
 
-/*.text-info {
-	background: #fff;
-	margin: auto;
-	position: relative;
-	top: 35px;
-	left: 0;
-	bottom: 0;
-	right: 0;
-	overflow: auto;
-	width: 270px;
-	height: 100%;
-}*/
+#navcontainer ul {
+	margin: 40px 0 40px 0;
+	padding: 0;
+	list-style-type: none;
+	text-align: center;
+}
 
+#navcontainer ul li {
+	display: inline;
+}
+
+#navcontainer ul li a {
+	text-decoration: none;
+	font: 13px "Open Sans", Arial, sans-serif;
+	text-align: center;
+	text-transform: uppercase;
+	font-weight: 700;
+	color: #676767;
+	background-color: #eee;
+	padding: 7px;
+	margin: 5px;
+	width: 100px;
+	border-radius: 4px 3px 6px / 2px 4px;
+}
+
+#navcontainer ul li a:hover {
+	text-decoration: none;
+	color: #333;
+	background-color: #cdcdcd;
+}
 
 /******* FORM *******/
 
@@ -67,21 +125,17 @@ p {
 	left: 0;
 	bottom: 0;
 	right: 0;
-	overflow: auto;
+	overflow-y: auto;
 	width: 270px;
 }
 
 label {
 	width: 270px;
 	float: left;
-	font: 16px/25px "Opens Sans", Arial, sans-serif;
+	font: 14px/20px "Open Sans", Arial, sans-serif;
 	text-align: left;
 	display: block;
 	font-weight: 700;
-}
-
-.sub-label {
-    font: 15px "Opens Sans", Arial, sans-serif;
 }
 
 .input {
@@ -89,78 +143,140 @@ label {
 	height: 30px;
 	margin-bottom: 15px;
 	background: #fff;
-	border: 1px solid #b7b7b7;
-	font: 18px "Opens Sans", Arial, sans-serif;
+	border: 1px solid #ccc;
+	border-radius: 4px 3px 6px / 2px 4px;
+	font: 15px "Open Sans", Arial, sans-serif;
 }
 
-.input-login {
+/*.input-login {
 	width: 150px;
 	height: 25px;
 	margin-left: 20px;
 	background: #fff;
-	border: 1px solid #b7b7b7;
-	font: 18px "Opens Sans", Arial, sans-serif;
-}
+	border: 1px solid #ccc;
+	border-radius: 4px 3px 6px / 2px 4px;
+	font: 18px "Open Sans", Arial, sans-serif;
+}*/
 
 .input-comment {
 	width: 270px;
 	height: 72px;
+	top: 0;
+	line-height: 72px;
 	margin-bottom: 20px;
 	background: #fff;
-	border: 1px solid #b7b7b7;
-	font: 15px "Opens Sans", Arial, sans-serif;
-	text-align: top;
+	border: 1px solid #ccc;
+	border-radius: 4px 3px 6px / 2px 4px;
+	font: 15px "Open Sans", Arial, sans-serif;
 }
 
 .btn-style {
 	margin: 5px 0 15px 0;
 	border: none;
-	background-color: #b7b7b7;
-	width: 180px;
+	border-radius: 4px 3px 6px / 2px 4px;
+	background-color: #db6653;
+	width: 150px;
 	height: 45px;
 	color: #fff;
 	font: 20px "Arvo", Georgia, serif;
 }
 
+/******* TOP NAV - SUBPAGES *******/
 
-/******* MAIN CONTENT *******/
-
-#content-wrapper {
-	float: right;
-	width: 100%;
-}
-
-#content {
+#top-nav {
 	background: #fff;
-	margin-right: 350px;
-	overflow-y: auto;
+	top: 0;
+	position: fixed;
+	width: 100%;
+	height: 70px;
+	opacity: 0.85;
+	box-shadow: 0 0 15px 0 rgba(0, 0, 0, 0.25);
 }
 
+#top-nav-container-left {
+	float: left;
+	margin: 22px 0 0 25px;
+}
 
-/******* MAP *******/
+#top-nav-container-right {
+	float: right;
+	margin: 26px 22px 0 0;
+}
 
-#map {
+#top-nav-list ul {
+	margin: 0;
+	padding: 0;
+	list-style-type: none;
+	text-align: center;
+}
+
+#top-nav-list ul li {
+	display: inline;
+}
+
+#top-nav-list ul li a {
+	text-decoration: none;
+	font: 13px "Open Sans", Arial, sans-serif;
+	text-align: center;
+	text-transform: uppercase;
+	font-weight: 700;
+	color: #676767;
+	background-color: #eee;
+	padding: 7px;
+	margin: 5px;
+	width: 100px;
+	border-radius: 4px 3px 6px / 2px 4px;
+}
+
+#top-nav-list ul li a:hover {
+	text-decoration: none;
+	color: #333;
+	background-color: #cdcdcd;
+}
+
+/******* CONTENT - SUBPAGES *******/
+
+#subpage-container {
 	width: 100%;
 	height: 100%;
-	top: 0;
-	bottom: 0;
 }
 
-.overlay {
-	position: absolute; 
-	padding: 15px;
-	font: 14px/16px "Open Sans", Arial, sans-serif;
-	background-color: rgba(255, 255, 255, 0.65);
-	box-shadow: 0 0 15px rgba(0, 0, 0, 0.45);
-	color: #000;
-	font-weight: 700;
+#subpage-header {
+	margin: 70px 0 50px 0;
+	width: 100%;
 }
 
-.title {
-	text-align: center;
-	top: 0;
-	left: 0;
+#subpage-content {
+	/*background-color: #000;*/
+	margin: auto;
+	width: 900px;
 }
+
+#subpage-archive-container {
+	width: 100%;
+	height: 100%;
+	background: url("../../static/img/tiny_grid.png");
+}
+
+#subpage-archive-inner-container {
+	padding-top: 260px;
+}
+
+#subpage-archive-content {
+	width: 450px;
+	margin: auto;
+}
+
+#description {
+	font: 18px/35px "Open Sans", Arial, sans-serif;
+	padding-bottom: 50px	
+}
+
+#description-login {
+	margin: auto;
+	width: 270px;
+}
+
 
 /******* GRAPH *******/
 

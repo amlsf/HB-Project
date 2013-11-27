@@ -1,23 +1,27 @@
 {% extends 'base.html' %}
 	<body>
 	{% block body %}
-		<!-- LEFT SIDE -->
 		<!-- Leaflet Map -->
 		<div id="content-wrapper">
-			<div id="content">
-				<div id="map"></div>
-				<div class="overlay title">
-					Bay Area Zombie Apocalypse - December 2013
-				</div>
+			<div id="map"></div>
+			<div class="overlay title">
+				Bay Area Zombie Apocalypse - December 2013
 			</div>
 		</div>
 
-		<!-- RIGHT SIDE -->
+		<!-- Sidebar -->
 		<div id="sidebar">
 			<div id="title-image">
 				<a href="/">
-					<img src="static/img/respondly-main.png" title="Mapping Community Responses" />
+					<img src="../static/img/supplycache-logo-blue.png" title="Helping you find resources after a disaster" />
 				</a>
+			</div>
+
+			<div id="navcontainer">
+				<ul>
+					<li><a href="/about">About</a></li>
+					<li><a href="/archive">Archive</a></li>
+				</ul>
 			</div>
 
 			<div class="form-container">
@@ -48,6 +52,8 @@
 				<p>
 					On the run? Text message your information to <strong>+1 (732) 734-6228</strong>! Please follow this format: name/address/supply/comment.
 				</p>
+
+				<br><br>
 			</div>
 		</div>
 

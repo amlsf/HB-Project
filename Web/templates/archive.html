@@ -1,37 +1,48 @@
 {% extends 'base.html' %}
-	<body>
+	<body class="archive">
 	{% block body %}
-		<div id="nav">
-			<div id="title-container">
-				<div id="title">
-					<a href="/" class="title">Preparely</a>
-				</div>
+		<div id="top-nav">
+			<div id="top-nav-container-left">
+				<a href="/">
+					<img src="../static/img/supplycache-logo-subpage.png" border="0">
+				</a>
 			</div>
-			<div id="nav-right">
-				<a href="/form" id="submit-button" class="navright">add to map</a>
-				<a href="/graph" class="navright">graph</a>
-				<a href="/archive" class="navright">archived events</a>
-				<a href="/about" class="navright">about</a>
+			<div id="top-nav-container-right">
+				<div id="top-nav-list">
+					<ul>
+						<li><a href="/about">About</a></li>
+						<li><a href="/archive">Archive</a></li>
+					</ul>
+				</div>
 			</div>
 		</div>
 
-		<br><br><br>
+		<div id="subpage-archive-container">
+			<div id="subpage-archive-inner-container">
+				<div id="subpage-archive-content">
+					<div id="description">
+						<center>
+							You must be logged in to view this page!
+						</center>
 
-		<div id="small-content">
-			Zombie Apocalypses
-			<ul>
-				<li><a href="/" class="archive">1968 Night of the Living Dead</a></li>
+						<br>
 
-				<li><a href="/" class="archive">1978 Dawn of the Dead</a></li>
+						<div id="description-login">
+							<form action="/archive" method="POST">
+								<label for="email">Email</label>
+								<input type="text" class="input" name="email" />
 
-				<li><a href="/" class="archive">1985 Day of the Dead</a></li>
+								<label for="password">Password</label>
+								<input type="text" class="input" name="password" />
+							</form>
+						</div>
 
-				<li><a href="/" class="archive">2005 Land of the Dead</a></li>
-
-				<li><a href="/" class="archive">2007 Diary of the Dead</a></li>
-
-				<li><a href="/" class="archive">2010 Survival of the Dead</a></li>
-			</ul>
+						<p align="center">
+							Not registered? Please <a href="/register">register here</a>.
+						</p>
+					</div>
+				</div>
+			</div>
 		</div>
 	{% endblock %}
 	</body>

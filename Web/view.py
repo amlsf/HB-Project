@@ -53,12 +53,13 @@ def index():
 # somehow say, only add new entries to the database
 @app.route("/incoming/sms", methods=["GET", "POST"])
 def incoming_sms():
-    print "FORM", request.form
-    print "ARGS", request.args
+    # print "FORM", request.form
+    # print "ARGS", request.args
+    
     # Get user phone number
-    print request.args('From')
+    user_num = request.args('From')
     # Get text message
-    print request.args('Body')  
+    user_msg = request.args('Body')  
 
     message = "Your text message has been received by Respondly!"
     resp = twilio.twiml.Response()
