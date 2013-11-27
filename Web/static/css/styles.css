@@ -1,6 +1,14 @@
-/* - - - - - - - - - - - - - -
-- - - - - - Global - - - - - -
- - - - - - - - - - - - - -  */
+/*
+	Author: Amy Lin
+	Hackbright Academy, Fall 2013
+*/
+
+
+/******* GLOBAL *******/
+
+html {
+	overflow: hidden;
+}
 
 body {
 	margin: 0;
@@ -11,99 +19,152 @@ ul {
 	list-style-type: none;
 }
 
-/* - - - - - - - - - - - - - -
-- - - - - Navigation - - - - -
-- - - - - - - - - - - - - - */
-
-#nav {
-	width: 100%;
-	height: 85px;
-	background-color: #333;
+p {
+	font: 13px/18px "Opens Sans", Arial, sans-serif;
 }
 
-#title-container {
-	margin: 25px 25px 0 25px;
-	float: left;
-}
 
-#title {
-	font: 25px "Arvo", Georgia, serif;
-	color: #fff;
-}
+/******* SIDEBAR *******/
 
-a.title {
-	font: 25px "Arvo", Georgia, serif;
-	color: #fff;
-	text-decoration: none;
-}
-
-#nav-right {
+#sidebar {
+	background: #fff;
+	/*border-left: 1px solid #b7b7b7;*/
 	float: right;
-	margin: 31px 25px 0 25px;
-	font: 15px "Open Sans", Arial, sans-serif;
-	text-transform: uppercase; 
-	color: #fff;
-	height: 50px;
-	text-align: right;
+	right: 350px;
+	margin-right: -350px;
+	position: absolute;
+	width: 350px;
+	overflow-y: auto;
 }
 
-a.navright {
-	font: 15px "Opens Sans", Arial, sans-serif;
-	color: #fff;
-	text-decoration: none;
-	margin-left: 20px;
+#title-image {
+	margin: 25px 0 25px 0;
+	border: 0;
+	text-align: center;
 }
 
-a.archive {
-	color: #df5401;
-	text-decoration: none;
-}
-
-#submit-button {
-	background-color: #979797;
-	padding: 10px;
-}
-
-
-/* - - - - - - - - - - - - - -
-- - - - - - Map - - - - - -
-- - - - - - - - - - - - - - */
-
-#container {
+/*.text-info {
+	background: #fff;
+	margin: auto;
 	position: relative;
+	top: 35px;
+	left: 0;
+	bottom: 0;
+	right: 0;
+	overflow: auto;
+	width: 270px;
+	height: 100%;
+}*/
+
+
+/******* FORM *******/
+
+.form-container {
+	background: #fff;
+	margin: auto;
+	position: relative;
+	top: 0;
+	left: 0;
+	bottom: 0;
+	right: 0;
+	overflow: auto;
+	width: 270px;
 }
 
-#container-left {
+label {
+	width: 270px;
 	float: left;
-	width: 70%;
+	font: 16px/25px "Opens Sans", Arial, sans-serif;
+	text-align: left;
+	display: block;
+	font-weight: 700;
 }
 
-#container-right {
-	float: left;
-	/*background-color: #eee;*/
-	width: 20%;
-	margin-left: 65px;
-	margin-top: 40px;
+.sub-label {
+    font: 15px "Opens Sans", Arial, sans-serif;
 }
+
+.input {
+	width: 270px;
+	height: 30px;
+	margin-bottom: 15px;
+	background: #fff;
+	border: 1px solid #b7b7b7;
+	font: 18px "Opens Sans", Arial, sans-serif;
+}
+
+.input-login {
+	width: 150px;
+	height: 25px;
+	margin-left: 20px;
+	background: #fff;
+	border: 1px solid #b7b7b7;
+	font: 18px "Opens Sans", Arial, sans-serif;
+}
+
+.input-comment {
+	width: 270px;
+	height: 72px;
+	margin-bottom: 20px;
+	background: #fff;
+	border: 1px solid #b7b7b7;
+	font: 15px "Opens Sans", Arial, sans-serif;
+	text-align: top;
+}
+
+.btn-style {
+	margin: 5px 0 15px 0;
+	border: none;
+	background-color: #b7b7b7;
+	width: 180px;
+	height: 45px;
+	color: #fff;
+	font: 20px "Arvo", Georgia, serif;
+}
+
+
+/******* MAIN CONTENT *******/
+
+#content-wrapper {
+	float: right;
+	width: 100%;
+}
+
+#content {
+	background: #fff;
+	margin-right: 350px;
+	overflow-y: auto;
+}
+
+
+/******* MAP *******/
 
 #map {
 	width: 100%;
-	height: 680px;
+	height: 100%;
 	top: 0;
 	bottom: 0;
 }
 
-#map-font {
-	font: 18px/28px "Arvo", Georgia, serif;
-	color: #333;
-	text-align: center;
+.overlay {
+	position: absolute; 
+	padding: 15px;
+	font: 14px/16px "Open Sans", Arial, sans-serif;
+	background-color: rgba(255, 255, 255, 0.65);
+	box-shadow: 0 0 15px rgba(0, 0, 0, 0.45);
+	color: #000;
+	font-weight: 700;
 }
 
-/* - - - - - - - - - - - - - -
-- - - - - - Graph - - - - - - 
-- - - - - - - - - - - - - - */
+.title {
+	text-align: center;
+	top: 0;
+	left: 0;
+}
 
-#graph-container {
+/******* GRAPH *******/
+
+/*#graph-container {
 	margin: auto;
 	width: 900px;
 	height: 500px;
@@ -131,101 +192,4 @@ a.archive {
     margin: 50px 0 0 50px;
     float: left;
     position: relative;
-}
-
-/* - - - - - - - - - - - - - -
-- - - - - - Content - - - - - 
-- - - - - - - - - - - - - - */
-
-#content {
-	margin: auto;
-    width: 300px;
-    font: 18px/28px "Open Sans", Arial, sans-serif;
-    color: #333;
-}
-
-#small-content {
-	margin: auto;
-    width: 600px;
-    font: 18px/32px "Open Sans", Arial, sans-serif;
-    color: #333;
-}
-
-/* - - - - - - - - - - - - - -
-- - - - - - - Form - - - - - -
-- - - - - - - - - - - - - - */
-
-.form-left {
-	float: left;
-	width: 300px;
-}
-
-/*.form-middle {
-	float: left;
-	margin-right: 30px;
-	width: 300px;
-}*/
-
-/*.form-right {
-	float: left;
-	width: 300px;
-}*/
-
-.clear {
-	clear: both;
-}
-
-#checkbox-font {
-	font: 15px/25px "Open Sans", Arial, sans-serif;
-}
-
-label {
-	width: 100%;
-	float: left;
-	font: 16px/25px "Opens Sans", Arial, sans-serif;
-	text-align: left;
-	display: block;
-	font-weight: 700;
-}
-
-.sub-label {
-    font: 15px "Opens Sans", Arial, sans-serif;
-}
-
-.input {
-	width: 100%;
-	height: 30px;
-	margin-bottom: 15px;
-	background: #fff;
-	border: 1px solid #b7b7b7;
-	font: 18px "Opens Sans", Arial, sans-serif;
-}
-
-.input-login {
-	width: 150px;
-	height: 25px;
-	margin-left: 20px;
-	background: #fff;
-	border: 1px solid #b7b7b7;
-	font: 18px "Opens Sans", Arial, sans-serif;
-}
-
-.input-comment {
-	width: 100%;
-	height: 72px;
-	margin-bottom: 20px;
-	background: #fff;
-	border: 1px solid #b7b7b7;
-	font: 15px "Opens Sans", Arial, sans-serif;
-	text-align: top;
-}
-
-.btn-style {
-	margin-top: 5px;
-	border: none;
-	background-color: #f0cc41;
-	width: 200px;
-	height: 50px;
-	color: #fff;
-	font: 20px "Arvo", Georgia, serif;
 }

@@ -1,111 +1,113 @@
 {% extends 'base.html' %}
 	<body>
 	{% block body %}
-		<div id="nav">
-			<div id="title-container">
-				<div id="title">
-					<a href="/" class="title">Preparely</a>
-				</div>
-			</div>
-			<div id="nav-right">
-				<!-- <a href="/form" id="submit-button" class="navright">add to map</a> -->
-				<!-- <a href="/graph" class="navright">graph</a> -->
-				<a href="/archive" class="navright">archived events</a>
-				<a href="/about" class="navright">about</a>
-			</div>
-		</div>
-		
+		<!-- LEFT SIDE -->
 		<!-- Leaflet Map -->
-		<script>
-			// Pulling coordinates from database
-			var coordinates = {{ map_json | safe }};
-		</script>
-
-		<div id="container">
-			<div id="container-left">
+		<div id="content-wrapper">
+			<div id="content">
+				<!-- Defining map -->
 				<div id="map"></div>
+				<!-- Map title overlay -->
+				<div class="overlay title">
+					Bay Area Zombie Apocalypse - December 2013
+				</div>
 
-				<script>
-				    // Calling map
-				    var map = L.map('map').setView([37.7528, -122.444], 12);
-				    L.tileLayer('http://{s}.tile.cloudmade.com/38be25219f7c4b6f8953354a1b2e583f/112887/256/{z}/{x}/{y}.png', {
-				        maxZoom: 15,
-				        attribution: 'Map data &copy; <a href="http://openstreetmap.org">OpenStreetMap</a> contributors, <a href="http://creativecommons.org/licenses/by-sa/2.0/">CC-BY-SA</a>, Imagery © <a href="http://cloudmade.com">CloudMade</a>'
-				      }).addTo(map);
-				    
-				    // Cluster group
-				    var markers = new L.MarkerClusterGroup({
-				    	disableClusteringAtZoom: 17
-				    });
+		        <!-- Original map -->
+		        <!-- <script>
+		            // Calling map
+		            var map = L.map('map', {
+		                zoomControl: false
+		            }).setView([37.759859,-122.44949], 12);
+		            L.tileLayer('http://{s}.tile.cloudmade.com/38be25219f7c4b6f8953354a1b2e583f/112887/256/{z}/{x}/{y}.png', {
+		                maxZoom: 15,
+		                attribution: 'Map data &copy; <a href="http://openstreetmap.org">OpenStreetMap</a> contributors, <a href="http://creativecommons.org/licenses/by-sa/2.0/">CC-BY-SA</a>, Imagery © <a href="http://cloudmade.com">CloudMade</a>'
+		              }).addTo(map);
+		            // Re-position zoom control to top right corner
+		            new L.Control.Zoom({
+		                position: 'topright'
+		            }).addTo(map);
 
-				    // Defining marker icon
-				    var markerIcon = L.Icon.extend({
-				      // Adding marker shadow option
-				      options: {
-				        shadowUrl: 'static/img/marker-shadow.png'
-				      }
-				    });
-				    var blueIcon = new markerIcon({
-				      iconUrl: 'static/img/marker-icon.png'
-				    });
+		            // Defining marker icon
+		            var markerIcon = L.Icon.extend({
+		                options: {
+		                    shadowUrl: 'static/img/marker-shadow.png'
+		                }
+		            });
+		            var blueIcon = new markerIcon({
+		                iconUrl: 'static/img/marker-icon.png'
+		            });
 
-				    // Adding markers from input coordinates
-				    for (var i = 0; i < coordinates.length; i++) {
-				        var a = coordinates[i];
-				        var title = a[2];
-				        var marker = L.marker(new L.LatLng(a[0], a[1]), {
-				            icon: blueIcon,
-				            title: title
-				        });
-				        marker.bindPopup(title);
-				        markers.addLayer(marker);
-				    }
-				    map.addLayer(markers);
-				</script>
+		            // Cluster group
+		            var markers = new L.MarkerClusterGroup({
+		                disableClusteringAtZoom: 17
+		            });
+
+		            // Adding markers from input coordinates
+		            for (var i = 0; i < coordinates.length; i++) {
+		                var a = coordinates[i];
+		                var title = a[2];
+		                var marker = L.marker(new L.LatLng(a[0], a[1]), {
+		                    icon: blueIcon,
+		                    title: title
+		                });
+		                marker.bindPopup(title).openPopup();
+		                markers.addLayer(marker);
+		            }
+		            map.addLayer(markers);
+		        </script> -->
 			</div>
-
-			<br><br>
-
-			<!-- Form -->
-			<div id="container-right">
-				<form action="/submit" method="POST">
-					<div class="form-left">
-						<label for="name">Name</label>
-						<input type="text" class="input" name="name" />
-
-						<label for="email">Email</label>
-						<input type="text" class="input" name="email" />
-
-						<label for="phone_num">Phone Number</label>
-						<input type="text" class="input" name="phone_num" />
-
-						<label for="address">Address</label>
-						<input type="text" class="input" name="address" />
-
-<!-- 						<label for="city">City</label>
-						<input type="text" class="input" name="city" />
-
-						<label for="state">State</label>
-						<input type="text" class="input" name="state" />
-
-						<label for="zipcode">Zipcode</label>
-						<input type="text" class="input" name="zipcode" /> -->
-
-						<label for="supply_type">Supply Type</label>
-						<!-- <div class="sub-label">(water, food, first aid kit, cell phone charger, or flashlight & batteries)</div> -->
-						<input type="text" class="input" name="supply_type" />
-
-						<label for="comment">Additional Comments</label>
-						<input type="text" class="input-comment" name="comment" />
-					<center>
-						<input type="submit" name="submit" class="btn-style" value="Add to Map" />
-					</center>
-					</div>
-				</form>
-			</div>
-			<div id="clear"></div>
 		</div>
+
+		<!-- RIGHT SIDE -->
+		<header id="sidebar">
+			<div id="title-image">
+				<a href="/">
+					<img src="static/img/respondly-main.png" title="Mapping Community Responses" />
+				</a>
+			</div>
+
+			<div class="form-container">
+				<center>
+				<form action="/submit" method="POST">
+					<label for="name">Name</label>
+					<input type="text" class="input" name="name" />
+
+					<label for="email">Email</label>
+					<input type="text" class="input" name="email" />
+
+					<label for="phone_num">Phone Number</label>
+					<input type="text" class="input" name="phone_num" />
+
+					<label for="address">Address, City, State</label>
+					<input type="text" class="input" name="address" />
+
+					<label for="supply_type">Supply</label>
+					<input type="text" class="input" name="supply_type" />
+
+					<label for="comment">Additional Comments</label>
+					<input type="text" class="input-comment" name="comment" />
+
+					<input type="submit" name="submit" class="btn-style" value="Add to Map" />
+				</form>
+				</center>
+				
+				<p>
+					On the run? Text message your information to <strong>+1 (732) 734-6228</strong>! Please follow this format: name/address/supply/comment.
+				</p>
+			</div>
+		</header>
 
 	{% endblock %}
 	</body>
+
+	<script type="text/javascript" charset="utf-8">
+		var testData = {
+    		max: 31,
+    		data: [
+    			{lat: 37.786827, lon:-122.490956, value: 2},
+    			{lat: 37.779399, lon:-122.454155, value: 3},
+    			{lat: 37.73, lon:-122.420338, value: 4}
+    		]
+    	};
+	</script>
 </html>

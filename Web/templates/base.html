@@ -1,36 +1,119 @@
+<!--
+    Author: Amy Lin
+    Hackbright Academy, Fall 2013
+-->
+
 <html>
     <head>
+        <title>Respondly: Mapping Community Responses</title>
+
+        <meta charset="utf-8">
         <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no" />
+
+        <script src="http://code.jquery.com/jquery-1.8.0.min.js"></script>
+        <link rel="stylesheet" href="http://cdn.leafletjs.com/leaflet-0.5.1/leaflet.css" />
+        <script src="http://cdn.leafletjs.com/leaflet-0.5.1/leaflet-src.js"></script>
+        <script type="text/javascript" src="../static/js/heatmap.js"></script>
+        <script type="text/javascript" src="../static/js/heatmap-leaflet.js"></script>
+        <script type="text/javascript" src="../static/js/QuadTree.js"></script>
+        <script src="../static/js/leaflet.markercluster-src.js"></script>
+        <script src="../static/js/leaflet.markercluster.js"></script>
         
-        <!-- My CSS -->
+        <!-- CSS -->
         <link rel="stylesheet" type="text/css" href="static/css/styles.css">
-        
-        <!-- Leaflet CSS -->
-        <link rel="stylesheet" href="static/css/leaflet.css">
-        <link rel="stylesheet" href="static/css/MarkerCluster.css">
-        <link rel="stylesheet" href="static/css/MarkerCluster.Default.css">
+        <link rel="stylesheet" href="../static/css/leaflet.css">
+        <link rel="stylesheet" href="../static/css/MarkerCluster.css">
+        <link rel="stylesheet" href="../static/css/MarkerCluster.Default.css">
 
         <!-- Google Fonts -->
         <link href='http://fonts.googleapis.com/css?family=Arvo|Open+Sans:400,700' rel='stylesheet' type='text/css'>
 
-        <!-- Mapbox JS for marker clustering -->
-        <script src="//api.tiles.mapbox.com/mapbox.js/v1.4.2/mapbox.js"></script>
-
-        <!-- Leaflet JS -->
-        <script src="static/js/leaflet.js"></script>
-        <script src="static/js/leaflet.markercluster-src.js"></script>
-        <script src="static/js/leaflet.markercluster.js"></script>
-
-        <!-- Heatmap JS -->
-        <script src="static/js/heatmap.js"></script>
-        <script src="static/js/heatmap-leaflet.js"></script>
-
         <!-- Chart JS -->
-        <script src="static/js/Chart.js"></script>
+        <script src="../static/js/Chart.js"></script>
+
+        <!-- Layout fluidity -->
+        <script>
+            $(document).ready(function() {
+                var currHeight = $(window).height();
+                $('#sidebar, #content').css('height', currHeight);
+                $(window).resize(function() {
+                    var currHeight = $(window).height();
+                    $('#sidebar, #content').css('height', currHeight);
+                });
+            });
+        </script>
+
+        <script>
+            $(function () {
+                var baseLayer = L.tileLayer(
+                    'http://{s}.tile.cloudmade.com/38be25219f7c4b6f8953354a1b2e583f/112887/256/{z}/{x}/{y}.png',{
+                        attribution: 'Map data &copy; <a href="http://openstreetmap.org">OpenStreetMap</a> contributors, <a href="http://creativecommons.org/licenses/by-sa/2.0/">CC-BY-SA</a>, Imagery © <a href="http://cloudmade.com">CloudMade</a>',
+                        maxZoom: 18
+                    }
+                );
+
+                var heatmapLayer = L.TileLayer.heatMap({
+                    // radius could be absolute or relative
+                    // absolute: radius in meters, relative: radius in pixels
+                    radius: { value: 1000, absolute: true },
+                    //radius: { value: 20, absolute: false },
+                    opacity: 0.65,
+                    gradient: {
+                        0.45: "rgb(0,0,255)",
+                        0.55: "rgb(0,255,255)",
+                        0.65: "rgb(0,255,0)",
+                        0.95: "yellow",
+                        1.0: "rgb(255,0,0)"
+                    }
+                });
+
+                heatmapLayer.setData(testData.data);
+
+                var markerIcon = L.Icon.extend({
+                    options: {
+                        shadowUrl: '../static/img/marker-shadow.png'
+                    }
+                });
+                var blueIcon = new markerIcon({
+                    iconUrl: '../static/img/marker-icon.png'
+                });
+
+                var markers = new L.MarkerClusterGroup({
+                    disableClusteringAtZoom: 17
+                });
+
+                var map = new L.Map('map', {
+                    zoomControl: false,
+                    center: new L.LatLng(37.759859,-122.44949),
+                    zoom: 12,
+                    layers: [baseLayer, heatmapLayer]
+                });
+                new L.Control.Zoom({
+                    position: 'topright'
+                }).addTo(map);
+
+                var coordinates = {{ map_json | safe }};
+
+                for (var i = 0; i < coordinates.length; i++) {
+                    var a = coordinates[i];
+                    var title = a[2];
+                    var marker = L.marker(new L.LatLng(a[0], a[1]), {
+                        icon: blueIcon,
+                        title: title
+                    });
+                    marker.bindPopup(title).openPopup();
+                    markers.addLayer(marker);
+                }
+                map.addLayer(markers);
+
+                // make accessible for debugging
+                layer = heatmapLayer;
+            });
+        </script>
     </head>
 
     <body>
-    {% block body %}
-    {% endblock %}
+        {% block body %}
+        {% endblock %}
     </body>
 </html>

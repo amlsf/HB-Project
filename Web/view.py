@@ -7,7 +7,7 @@ import config
 
 from sqlalchemy.orm import sessionmaker, scoped_session, relationship, backref
 
-import util
+# import util
 
 from twilio.rest import TwilioRestClient
 import model
@@ -50,18 +50,21 @@ def index():
 
     return render_template("index.html", map_json=map_json)
 
-
-@app.route("/incoming/sms", methods=["GET"])
+# somehow say, only add new entries to the database
+@app.route("/incoming/sms", methods=["GET", "POST"])
 def incoming_sms():
     print "FORM", request.form
     print "ARGS", request.args
-    print request.args['FromCity']
-    return "Hi"
+    # Get user phone number
+    print request.args('From')
+    # Get text message
+    print request.args('Body')  
 
-# --------- WEB FORM ---------
-# @app.route("/form")
-# def form():
-#     return render_template("form.html")
+    message = "Your text message has been received by Respondly!"
+    resp = twilio.twiml.Response()
+    resp.message(message)
+
+    return str(resp)
 
 # Web form submit
 @app.route("/submit", methods=["POST"])
@@ -74,16 +77,16 @@ def submit():
 
     # ----- location -----
     address = request.form.get("address")
-    city = request.form.get("city")
-    state = request.form.get("state")
-    zipcode = request.form.get("zipcode")
-    result = address + " " + city + " " + state + " " + zipcode
+    # city = request.form.get("city")
+    # state = request.form.get("state")
+    # zipcode = request.form.get("zipcode")
+    # result = address + " " + city + " " + state + " " + zipcode
     # ensures address is formatted correctly
-    new_result = Geocoder.geocode(result)
-    lat_lng = new_result.coordinates
+    format_address = Geocoder.geocode(address)
+    lat_lng = format_address.coordinates
     lat = lat_lng[0]
     lng = lat_lng[1]
-    full_address = str(new_result)
+    full_address = str(format_address)
 
     # ----- supply -----
     supply_type = request.form.get("supply_type")
