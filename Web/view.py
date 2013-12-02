@@ -1,15 +1,14 @@
 from flask import Flask, Response, render_template, redirect, request, g, session, url_for, flash
-# from flask.ext.login import LoginManager, login_required, login_user, current_user
-# from flaskext.markdown import Markdown
+from flask.ext.login import LoginManager, login_required, login_user, current_user
+from flaskext.markdown import Markdown
 import config
-# import forms
-# from forms import RegistrationForm
+import forms
+from forms import RegistrationForm
 
 from sqlalchemy.orm import sessionmaker, scoped_session, relationship, backref
 
-# import util
-
-from twilio.rest import TwilioRestClient
+import twilio
+# from twilio.rest import TwilioRestClient
 import model
 from model import User, Location, Supply, Comment
 import json
@@ -20,25 +19,24 @@ app = Flask(__name__)
 app.config.from_object(config)
 
 # Stuff to make login easier
-# login_manager = LoginManager()
-# login_manager.init_app(app)
-# login_manager.login_view = "login"
+login_manager = LoginManager()
+login_manager.init_app(app)
+login_manager.login_view = "login"
 
-# @login_manager.user_loader
-# def load_user(user_id):
-#     return User.query.get(user_id)
+@login_manager.user_loader
+def load_user(user_id):
+    return User.query.get(user_id)
 # End login stuff
 
 # Adding markdown capability to the app
-# Markdown(app)
+Markdown(app)
 
 # --------- MAIN PAGE ---------
 @app.route("/")
 def index():
-    # database to map
+    # location
     locations = Location.query.all()
     marker_list = []
-
     for location in locations:
         lat_coordinate = location.lat
         lng_coordinate = location.lng
@@ -50,24 +48,52 @@ def index():
 
     return render_template("index.html", map_json=map_json)
 
-# somehow say, only add new entries to the database
+
+# --------- TWILIO ---------
 @app.route("/incoming/sms", methods=["GET", "POST"])
 def incoming_sms():
     # print "FORM", request.form
     # print "ARGS", request.args
     
     # Get user phone number
-    user_num = request.args('From')
+    user_num = request.args['From']
     # Get text message
-    user_msg = request.args('Body')  
+    user_msg = request.args['Body']  
 
-    message = "Your text message has been received by Respondly!"
+    format_msg = user_msg.split("/")
+    name = format_msg[0]
+
+    address_result = format_msg[1]
+    format_address = Geocoder.geocode(address_result)
+    lat_lng = format_address.coordinates
+    lat = lat_lng[0]
+    lng = lat_lng[1]
+    full_address = str(format_address)
+
+    supply_type = format_msg[2]
+    date_logged = datetime.datetime.now()
+
+    comment = format_msg[3]
+
+    user = User(name=name, phone_num=user_num)
+    location = Location(full_address=full_address, lat=lat, lng=lng)
+    supply = Supply(supply_type=supply_type, date_logged=date_logged)
+    comment = Comment(extra_comment=comment)
+
+    model.session.add(user)
+    model.session.add(location)
+    model.session.add(supply)
+    model.session.add(comment)
+    model.session.commit()
+
+    message = "Your text message has been received by Supplycache!"
     resp = twilio.twiml.Response()
     resp.message(message)
 
     return str(resp)
 
-# Web form submit
+
+# --------- WEB FORM ---------
 @app.route("/submit", methods=["POST"])
 def submit():
 
@@ -78,10 +104,6 @@ def submit():
 
     # ----- location -----
     address = request.form.get("address")
-    # city = request.form.get("city")
-    # state = request.form.get("state")
-    # zipcode = request.form.get("zipcode")
-    # result = address + " " + city + " " + state + " " + zipcode
     # ensures address is formatted correctly
     format_address = Geocoder.geocode(address)
     lat_lng = format_address.coordinates
@@ -109,31 +131,6 @@ def submit():
 
     return redirect(url_for("index"))
 
-# use heatmap layer to show affected areas
-# @app.route("/heatmap")
-# def heatmap():
-#     locations = Location.query.all()
-#     marker_list = []
-#     d = {}
-
-#     for location in locations:
-#         lat_coordinate = location.lat
-#         lng_coordinate = location.lng
-
-#         d['lat'] = lat_coordinate
-#         d['lon'] = lng_coordinate
-#         d['value'] = 1
-
-#         marker_list.append(d.copy())
-
-#     print "***********************"
-#     print marker_list
-    
-#     # to JSON for Leaflet
-#     marker_json = json.dumps(marker_list)
-
-#     return render_template("heatmap.html", marker_json=marker_json)
-
 
 # --------- ABOUT ---------
 @app.route("/about")
@@ -147,27 +144,33 @@ def archive():
     return render_template("archive.html")
 
 
+# --------- IF LOGGED IN ---------
+@app.route("/archive/admin")
+def admin():
+    return render_template("admin.html")
+
+
 # --------- GRAPH ---------
-# @app.route("/graph")
-# def graph():
-#     d = {}
-#     data = Supply.query.all()
+@app.route("/graph")
+def graph():
+    d = {}
+    data = Supply.query.all()
     
-#     for value in data:
-#         amount = value.supply_amount
-#         unicode_supply = value.supply_type
-#         supply = unicode_supply.encode("ascii", "ignore")
-#         if supply not in d.keys(): 
-#             d[supply] = amount
-#         else:
-#             d[supply] += amount
+    for value in data:
+        amount = value.id
+        unicode_supply = value.supply_type
+        supply = unicode_supply.encode("ascii", "ignore")
+        if supply not in d.keys(): 
+            d[supply] = amount
+        else:
+            d[supply] += amount
 
-#     keys_list = d.keys()
-#     values_list = []
-#     for key in keys_list:
-#         values_list.append(d[key])
+    keys_list = d.keys()
+    values_list = []
+    for key in keys_list:
+        values_list.append(d[key])
 
-#     return render_template("db_graph.html", keys_list=keys_list, values_list=values_list)
+    return render_template("db_graph.html", keys_list=keys_list, values_list=values_list)
 
 # @app.route("/register", methods=["GET","POST"])
 # def register():
@@ -200,4 +203,3 @@ def archive():
 
 if __name__ == "__main__":
     app.run(debug=True)
-    # util.retrieve()

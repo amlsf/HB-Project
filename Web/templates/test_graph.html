@@ -1,0 +1,92 @@
+
+<!doctype>
+<head>
+	<link type="text/css" rel="stylesheet" href="../static/css/graph.css">
+	<link type="text/css" rel="stylesheet" href="../static/css/detail.css">
+	<link type="text/css" rel="stylesheet" href="../static/css/legend.css">
+	<link type="text/css" rel="stylesheet" href="../static/css/lines.css">
+
+	<script src="../static/js/d3.v2.js"></script>
+
+	<script src="https://ajax.googleapis.com/ajax/libs/jquery/1.6.2/jquery.min.js"></script>
+
+	<script src="../static/js/rickshaw.js"></script>
+
+</head>
+<body>
+
+<div id="chart_container">
+	<div id="chart"></div>
+	<div id="legend_container">
+		<div id="smoother" title="Smoothing"></div>
+		<div id="legend"></div>
+	</div>
+	<div id="slider"></div>
+</div>
+
+<script>
+
+// set up our data series with random points - 5 arrays
+var seriesData = [ [], [], [], [], [] ];
+var random = new Rickshaw.Fixtures.RandomData(50);
+
+for (var i = 0; i < 50; i++) {
+	random.addData(seriesData);
+}
+
+// instantiate graph
+var graph = new Rickshaw.Graph( {
+	element: document.getElementById("chart"),
+	width: 900,
+	height: 400,
+	renderer: 'line',
+	series: [
+		{
+			color: "#4cb1d7",
+			data: seriesData[0],
+			name: 'Water'
+		}, {
+			color: "#fdcf12",
+			data: seriesData[1],
+			name: 'Food'
+		}, {
+			color: "#ed6f5a",
+			data: seriesData[2],
+			name: 'First Aid Kit'
+		}, {
+			color: "#2cca94",
+			data: seriesData[3],
+			name: 'Cell Phone Charger'
+		}, {
+			color: "#999",
+			data: seriesData[4],
+			name: 'Flashlight'
+		}
+	]
+} );
+
+graph.render();
+
+var hoverDetail = new Rickshaw.Graph.HoverDetail( {
+	graph: graph
+} );
+
+var legend = new Rickshaw.Graph.Legend( {
+	graph: graph,
+	element: document.getElementById('legend')
+
+} );
+
+var shelving = new Rickshaw.Graph.Behavior.Series.Toggle( {
+	graph: graph,
+	legend: legend
+} );
+
+var axes = new Rickshaw.Graph.Axis.Time( {
+	graph: graph
+} );
+axes.render();
+
+</script>
+
+</body>

@@ -32,6 +32,38 @@ a:hover {
 	text-decoration: underline;
 }
 
+.clear {
+	clear: both;
+	margin-bottom: 50px;
+}
+
+table { 
+	width: 100%; 
+	border-collapse: collapse; 
+}
+
+th { 
+	padding: 6px; 
+	background: #eee; 
+	border-right: 3px solid #fff;
+	border-bottom: 3px solid #fff;  
+	font: 14px/18px "Open Sans", Arial, sans-serif; 
+	font-weight: 700;
+	text-align: center;
+	width: 50%;
+}
+
+td { 
+	padding: 6px; 
+	background: #eee; 
+	border-right: 3px solid #fff;
+	border-bottom: 3px solid #fff;  
+	text-align: center; 
+	font: 14px/18px "Open Sans", Arial, sans-serif; 
+	width: 50%;
+}
+
+
 /******* MAP CONTENT *******/
 
 #content-wrapper {
@@ -148,16 +180,6 @@ label {
 	font: 15px "Open Sans", Arial, sans-serif;
 }
 
-/*.input-login {
-	width: 150px;
-	height: 25px;
-	margin-left: 20px;
-	background: #fff;
-	border: 1px solid #ccc;
-	border-radius: 4px 3px 6px / 2px 4px;
-	font: 18px "Open Sans", Arial, sans-serif;
-}*/
-
 .input-comment {
 	width: 270px;
 	height: 72px;
@@ -170,7 +192,7 @@ label {
 	font: 15px "Open Sans", Arial, sans-serif;
 }
 
-.btn-style {
+.btn-style-map {
 	margin: 5px 0 15px 0;
 	border: none;
 	border-radius: 4px 3px 6px / 2px 4px;
@@ -181,6 +203,17 @@ label {
 	font: 20px "Arvo", Georgia, serif;
 }
 
+.btn-style-login {
+	margin: 5px 0 15px 0;
+	border: none;
+	border-radius: 4px 3px 6px / 2px 4px;
+	background-color: #888;
+	width: 115px;
+	height: 35px;
+	color: #fff;
+	font: 16px "Arvo", Georgia, serif;
+}
+
 /******* TOP NAV - SUBPAGES *******/
 
 #top-nav {
@@ -189,8 +222,9 @@ label {
 	position: fixed;
 	width: 100%;
 	height: 70px;
-	opacity: 0.85;
-	box-shadow: 0 0 15px 0 rgba(0, 0, 0, 0.25);
+	opacity: 0.9;
+	border-bottom: 1px solid #ddd;
+	/*box-shadow: 0 0 15px 0 rgba(0, 0, 0, 0.25);*/
 }
 
 #top-nav-container-left {
@@ -259,7 +293,7 @@ label {
 }
 
 #subpage-archive-inner-container {
-	padding-top: 260px;
+	padding-top: 255px;
 }
 
 #subpage-archive-content {
@@ -275,6 +309,46 @@ label {
 #description-login {
 	margin: auto;
 	width: 270px;
+}
+
+#archive-logged-in-container {
+	width: 100%;
+	height: 100%;
+	margin-bottom: 65px;
+}
+
+.archive-logged-in-content {
+	width: 800px;
+	margin: auto;
+}
+
+.archive-logged-in-left {
+	width: 450px;
+	margin-top: 55px;
+	float: left;
+	/*background-color: #eee;*/
+}
+
+.archive-logged-in-right {
+	width: 300px;
+	margin-top: 55px;
+	float: left;
+	text-align: right;
+	/*background-color: #eee;*/
+}
+
+.archive-logged-in {
+	font: 16px/25px "Open Sans", Arial, sans-serif;
+}
+
+#btn-summary {
+	border: none;
+	border-radius: 4px 3px 6px / 2px 4px;
+	background-color: #4cb1d7;
+	width: 135px;
+	height: 35px;
+	color: #fff;
+	font: 14px "Open Sans", Arial, serif;
 }
 
 

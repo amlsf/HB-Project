@@ -23,6 +23,8 @@ class User(Base):
     email = Column(String(140), nullable=True)
     phone_num = Column(String(140), nullable=True)
 
+    # location = relationship("Location", backref="users")
+
 # ------- Location -------
 class Location(Base):
     __tablename__ = "location"
@@ -30,6 +32,8 @@ class Location(Base):
     full_address = Column(String(300), nullable=True)
     lat = Column(Integer, nullable=True)
     lng = Column(Integer, nullable=True)
+
+    # user_id = Column(Integer, ForeignKey('users.id'))
 
 # ------- Supply -------
 class Supply(Base):
