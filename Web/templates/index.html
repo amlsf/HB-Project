@@ -1,7 +1,6 @@
 {% extends 'base.html' %}
 	<body>
 	{% block body %}
-		<!-- Leaflet Map -->
 		<div id="content-wrapper">
 			<div id="map"></div>
 			<div class="overlay title">
@@ -27,19 +26,19 @@
 			<div class="form-container">
 				<center>
 				<form action="/submit" method="POST">
-					<label for="name">Name</label>
+					<label for="name">Name *</label>
 					<input type="text" class="input" name="name" />
+
+					<label for="phone_num">Phone Number *</label>
+					<input type="text" class="input" name="phone_num" />
 
 					<label for="email">Email</label>
 					<input type="text" class="input" name="email" />
 
-					<label for="phone_num">Phone Number</label>
-					<input type="text" class="input" name="phone_num" />
-
-					<label for="address">Address, City, State</label>
+					<label for="address">Address, City, State *</label>
 					<input type="text" class="input" name="address" />
 
-					<label for="supply_type">Supply</label>
+					<label for="supply_type">Supply *</label>
 					<input type="text" class="input" name="supply_type" />
 
 					<label for="comment">Additional Comments</label>
@@ -56,7 +55,6 @@
 				<br><br>
 			</div>
 		</div>
-
 	{% endblock %}
 	</body>
 </html>

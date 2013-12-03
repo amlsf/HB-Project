@@ -845,7 +845,10 @@ Rickshaw.Fixtures.RandomData = function(timeInterval) {
 				(Math.cos(index / 7) + 2) * 7 +
 				(Math.cos(index / 17) + 2) * 1;
 
-			series.push( { x: (index * timeInterval) + timeBase, y: v + randomVariance } );
+			series.push( { 
+				x: (index * timeInterval) + timeBase, 
+				y: Math.round(v + randomVariance) 
+			} );
 		} );
 
 		lastRandomValue = randomValue * 0.85;

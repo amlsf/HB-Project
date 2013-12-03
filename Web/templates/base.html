@@ -6,57 +6,47 @@
         Leaflet JS + the amazing community for the various plugins
             Marker Cluster
             Heatmap JS
-        Chart JS
-        Cloudmade
+        Rickshaw JS
+        CloudMade
         Google Fonts
 -->
 
 <html>
     <head>
-        <title>Supplycache: Locating Resources in Your Community</title>
+        <title>SupplyCache: Locating Resources in Your Community</title>
 
         <meta charset="utf-8">
         <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no" />
+        <!-- Favicon -->
         <link rel="icon" type="image/ico" href="../static/img/favicon.ico"/>
-
-        <script src="http://code.jquery.com/jquery-1.8.0.min.js"></script>
-        <script src="http://code.jquery.com/jquery-1.9.1.js"></script>
-
-        <link rel="stylesheet" href="../static/css/leaflet.css" />
-        <script src="../static/js/leaflet-src.js"></script>
-        <!-- Leaflet heatmap plugin -->
-        <script type="text/javascript" src="../static/js/heatmap.js"></script>
-        <script type="text/javascript" src="../static/js/heatmap-leaflet.js"></script>
-        <script type="text/javascript" src="../static/js/QuadTree.js"></script>
-        <!-- Leaflet marker cluster plugin -->
-        <script src="../static/js/leaflet.markercluster-src.js"></script>
-        <script src="../static/js/leaflet.markercluster.js"></script>
-        <!-- Leaflet label plugin-->
-        <script src="../static/js/leaflet.label.js"></script>
-        
-        <!-- CSS -->
+        <!-- jQuery -->
+        <script src="../static/js/jquery-1.8.0.min.js"></script>
+        <script src="../static/js/jquery-1.9.1.js"></script>
+        <!-- My CSS -->
         <link rel="stylesheet" type="text/css" href="../static/css/styles.css">
+        <!-- Leaflet CSS -->
         <link rel="stylesheet" href="../static/css/leaflet.css">
         <link rel="stylesheet" href="../static/css/MarkerCluster.css">
         <link rel="stylesheet" href="../static/css/MarkerCluster.Default.css">
-
-        <!-- Google Fonts -->
-        <link href="http://fonts.googleapis.com/css?family=Arvo|Open+Sans:400,700" rel="stylesheet" type="text/css">
-
-        <!-- Google Graphs JS -->
-        <script type="text/javascript" src="https://www.google.com/jsapi"></script>
-
-        <!-- Chart JS -->
-        <script src="../static/js/Chart.js"></script>
-
-        <!-- Rickshaw JS -->
+        <!-- Leaflet JS -->
+        <script src="../static/js/leaflet-src.js"></script>
+        <!-- Heatmap plugin -->
+        <script type="text/javascript" src="../static/js/heatmap.js"></script>
+        <script type="text/javascript" src="../static/js/heatmap-leaflet.js"></script>
+        <script type="text/javascript" src="../static/js/QuadTree.js"></script>
+        <!-- Marker cluster plugin -->
+        <script src="../static/js/leaflet.markercluster-src.js"></script>
+        <script src="../static/js/leaflet.markercluster.js"></script>
+        <!-- Rickshaw CSS -->
         <link type="text/css" rel="stylesheet" href="../static/css/graph.css">
         <link type="text/css" rel="stylesheet" href="../static/css/detail.css">
         <link type="text/css" rel="stylesheet" href="../static/css/legend.css">
         <link type="text/css" rel="stylesheet" href="../static/css/lines.css">
+        <!-- Rickshaw JS -->
         <script src="../static/js/d3.v2.js"></script>
         <script src="../static/js/rickshaw.js"></script>
-
+        <!-- Google Fonts -->
+        <link href="http://fonts.googleapis.com/css?family=Arvo|Open+Sans:400,700" rel="stylesheet" type="text/css">
         <!-- Layout fluidity -->
         <script>
             $(document).ready(function() {
@@ -68,95 +58,120 @@
                 });
             });
         </script>
-
+        <!-- jQuery toggle -->
         <script>
-        $(function () {
-            var baseLayer = L.tileLayer(
-                'http://{s}.tile.cloudmade.com/38be25219f7c4b6f8953354a1b2e583f/82651/256/{z}/{x}/{y}.png', 
-                {
-                    attribution: 'Map data &copy; <a href="http://openstreetmap.org">OpenStreetMap</a> contributors, <a href="http://creativecommons.org/licenses/by-sa/2.0/">CC-BY-SA</a>, Imagery © <a href="http://cloudmade.com">CloudMade</a>',
-                    maxZoom: 17
-                }
-            );
-            // Heatmap JS
-            var heatmapLayer = L.TileLayer.heatMap({
-                // radius could be absolute or relative
-                // absolute: radius in meters, relative: radius in pixels
-                radius: { 
-                    value: 500, 
-                    absolute: true 
-                },
-                opacity: 0.65,
-                gradient: {
-                    0.45: "rgb(0,0,255)",
-                    0.55: "rgb(0,255,255)",
-                    0.65: "rgb(0,255,0)",
-                    0.95: "yellow",
-                    1.0: "rgb(255,0,0)"
-                }
-            });
+            $(document).ready(function() {
+                var details = $(".archive-event-details");
+                $(details).show();
 
-            // Heatmap points
-            var testData = {
-                max: 31,
-                data: [
-                    {lat: 37.786827, lon:-122.490956, value: 2.75},
-                    {lat: 37.791827, lon:-122.482956, value: 2},
-                    {lat: 37.779399, lon:-122.454155, value: 1},
-                    {lat: 37.773399, lon:-122.459155, value: 1.5},
-                    {lat: 37.769399, lon:-122.454155, value: 1.5},
-                    {lat: 37.769399, lon:-122.464155, value: 1.5},
-                    {lat: 37.73, lon:-122.420338, value: 3.75},
-                    {lat: 37.735, lon:-122.425338, value: 1.75},
-                    {lat: 37.729, lon:-122.433338, value: 1.75}
-                ]
-            };
-            heatmapLayer.setData(testData.data);
-
-            var markerIcon = L.Icon.extend({
-                options: {
-                    shadowUrl: '../static/img/marker-shadow.png'
-                }
-            });
-            var blueIcon = new markerIcon({
-                iconUrl: '../static/img/marker-icon.png'
-            });
-
-            var markers = new L.MarkerClusterGroup();
-
-            var map = new L.Map('map', {
-                zoomControl: false,
-                center: new L.LatLng(37.762573,-122.495365),
-                zoom: 12,
-                layers: [baseLayer, heatmapLayer]
-            });
-            new L.Control.Zoom({
-                position: 'topright'
-            }).addTo(map);
-
-            // Plot coordinates from locations table
-            var coordinates = {{ map_json | safe }};
-            for (var i = 0; i < coordinates.length; i++) {
-                var a = coordinates[i];
-                var title = a[2];
-                var marker = L.marker(new L.LatLng(a[0], a[1]), {
-                    icon: blueIcon,
-                    title: title
+                $("button").click(function(e) {
+                    $(details).toggle();
+                    e.preventDefault();
                 });
-                marker.bindPopup(
-                    "<b>Name:</b> " + "name" + "<br>" + 
-                    "<b>Email:</b> " + "email" + "<br>" + 
-                    "<b>Phone:</b> " + "phone" + "<br>" + 
-                    "<b>Address:</b> " + title + "<br>" + 
-                    "<b>Supply:</b> " + "supply" + "<br>" +
-                    "<b>Comment: </b>" + "comment"
+            });
+        </script>
+        <!-- Leaflet Map tiling + heatmap -->
+        <script>
+            $(function () {
+                var baseLayer = L.tileLayer(
+                    'http://{s}.tile.cloudmade.com/38be25219f7c4b6f8953354a1b2e583f/82651/256/{z}/{x}/{y}.png', 
+                    {
+                        attribution: 'Map data &copy; <a href="http://openstreetmap.org">OpenStreetMap</a> contributors, <a href="http://creativecommons.org/licenses/by-sa/2.0/">CC-BY-SA</a>, Imagery © <a href="http://cloudmade.com">CloudMade</a>',
+                        maxZoom: 18
+                    }
                 );
-                markers.addLayer(marker);
-            }
-            map.addLayer(markers);
+                // Heatmap JS
+                var heatmapLayer = L.TileLayer.heatMap({
+                    // radius could be absolute or relative
+                    // absolute: radius in meters, relative: radius in pixels
+                    radius: { 
+                        value: 500, 
+                        absolute: true 
+                    },
+                    opacity: 0.65,
+                    gradient: {
+                        0.45: "rgb(0,0,255)",
+                        0.55: "rgb(0,255,255)",
+                        0.65: "rgb(0,255,0)",
+                        0.95: "yellow",
+                        1.0: "rgb(255,0,0)"
+                    }
+                });
 
-            layer = heatmapLayer;
-        });
+                // Heatmap points
+                var testData = {
+                    max: 31,
+                    data: [
+                        {lat: 37.786827, lon:-122.490956, value: 2.75},
+                        {lat: 37.791827, lon:-122.482956, value: 2},
+                        {lat: 37.779399, lon:-122.454155, value: 1},
+                        {lat: 37.773399, lon:-122.459155, value: 1.5},
+                        {lat: 37.769399, lon:-122.454155, value: 1.5},
+                        {lat: 37.769399, lon:-122.464155, value: 1.5},
+                        {lat: 37.73, lon:-122.420338, value: 3.75},
+                        {lat: 37.735, lon:-122.425338, value: 1.75},
+                        {lat: 37.729, lon:-122.433338, value: 1.75}
+                    ]
+                };
+                heatmapLayer.setData(testData.data);
+
+                var markerIcon = L.Icon.extend({
+                    options: {
+                        shadowUrl: '../static/img/marker-shadow.png'
+                    }
+                });
+                var blueIcon = new markerIcon({
+                    iconUrl: '../static/img/marker-icon.png'
+                });
+
+                var markers = new L.MarkerClusterGroup();
+
+                var map = new L.Map('map', {
+                    zoomControl: false,
+                    center: new L.LatLng(37.762573,-122.495365),
+                    zoom: 12,
+                    layers: [baseLayer, heatmapLayer]
+                });
+                new L.Control.Zoom({
+                    position: 'topright'
+                }).addTo(map);
+
+                // Plot coordinates from locations table
+                var info = {{ master_json | safe }};
+                for (var i = 0; i < info.length; i++) {
+                    var a = info[i];
+                    var name = a[0];
+                    var email = a[1];
+                    if (email == null) {
+                        email = "None - info via SMS";
+                    }
+                    var phone = a[2];
+                    var address = a[3];
+                    var supply = a[6];
+                    var comment = a[7];
+                    var marker = L.marker(new L.LatLng(a[4], a[5]), {
+                        icon: blueIcon,
+                        name: name,
+                        email: email,
+                        phone: phone,
+                        address: address,
+                        supply: supply,
+                        comment: comment
+                    });
+                    marker.bindPopup( 
+                        "<b>Name:</b> " + name + "<br>" + 
+                        "<b>Email:</b> " + email + "<br>" +  
+                        "<b>Phone:</b> " + phone + "<br>" + 
+                        "<b>Address:</b> " + address + "<br>" + 
+                        "<b>Supply:</b> " + supply + "<br>" + 
+                        "<b>Comment: </b>" + comment
+                    );
+                    markers.addLayer(marker);
+                }
+                map.addLayer(markers);
+
+                layer = heatmapLayer;
+            });
         </script>
     </head>
 

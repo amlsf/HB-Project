@@ -40,6 +40,7 @@ a:hover {
 table { 
 	width: 100%; 
 	border-collapse: collapse; 
+	opacity: 0.85;
 }
 
 th { 
@@ -54,12 +55,12 @@ th {
 }
 
 td { 
+	font: 14px/18px "Open Sans", Arial, sans-serif; 
 	padding: 6px; 
 	background: #eee; 
 	border-right: 3px solid #fff;
 	border-bottom: 3px solid #fff;  
 	text-align: center; 
-	font: 14px/18px "Open Sans", Arial, sans-serif; 
 	width: 50%;
 }
 
@@ -99,10 +100,7 @@ td {
 
 #sidebar {
 	background: #fff;
-	/*border-left: 1px solid #b7b7b7;*/
 	float: right;
-/*	right: 350px;
-	margin-right: -350px;*/
 	position: absolute;
 	width: 350px;
 	overflow-y: auto;
@@ -146,6 +144,7 @@ td {
 	color: #333;
 	background-color: #cdcdcd;
 }
+
 
 /******* FORM *******/
 
@@ -214,6 +213,7 @@ label {
 	font: 16px "Arvo", Georgia, serif;
 }
 
+
 /******* TOP NAV - SUBPAGES *******/
 
 #top-nav {
@@ -268,6 +268,7 @@ label {
 	background-color: #cdcdcd;
 }
 
+
 /******* CONTENT - SUBPAGES *******/
 
 #subpage-container {
@@ -281,7 +282,6 @@ label {
 }
 
 #subpage-content {
-	/*background-color: #000;*/
 	margin: auto;
 	width: 900px;
 }
@@ -322,19 +322,22 @@ label {
 	margin: auto;
 }
 
+.archive-event-details {
+	width: 800px;
+	margin: auto;
+}
+
 .archive-logged-in-left {
 	width: 450px;
 	margin-top: 55px;
 	float: left;
-	/*background-color: #eee;*/
 }
 
 .archive-logged-in-right {
-	width: 300px;
+	width: 350px;
 	margin-top: 55px;
 	float: left;
 	text-align: right;
-	/*background-color: #eee;*/
 }
 
 .archive-logged-in {
@@ -349,37 +352,4 @@ label {
 	height: 35px;
 	color: #fff;
 	font: 14px "Open Sans", Arial, serif;
-}
-
-
-/******* GRAPH *******/
-
-/*#graph-container {
-	margin: auto;
-	width: 900px;
-	height: 500px;
-}
-
-#chart {
-    display: inline-block;
-}
-
-#legend {
-    display: inline-block;
-    position: relative;
-    left: 8px;
-}
-
-#legend_container {
-    position: absolute;
-    top: 0;
-    right: 0;
-    bottom: 0;
-    width: 0;
-}
-
-#chart_container {
-    margin: 50px 0 0 50px;
-    float: left;
-    position: relative;
 }
