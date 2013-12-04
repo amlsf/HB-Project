@@ -7,7 +7,7 @@ SupplyCache is a web application that helps communities locate resources after a
 
 ![Main page](/screenshots/sc-img1.jpg)
 
-### Data visualiztion
+### Data visualization
 ###### Rickshaw
 Archived events are accessed via a login due to the sensitivity of the information provided. Once logged in, users will see a graph that displays supply trends over time for the selected disaster/event. The graph uses [Rickshaw](http://code.shutterstock.com/rickshaw/), which is a JavaScript graphing toolkit built on D3. In addition, below the graph is a table that contains a general summarization of the data.
 
@@ -15,7 +15,7 @@ Archived events are accessed via a login due to the sensitivity of the informati
 
 ### Database
 ###### Python, SQLAlchemy
-User input is stored into the database using Python and SQLAlchemy. The database(s) can and have also been seeded. The database is used to populate the map, graphs, and tables.
+User input is stored into the database(s) using Python and SQLAlchemy. The database(s) can and have also been seeded. The database(s) is used to populate the map, graphs, and tables.
 
 ### Web Framework & User Interface
 ###### Flask, JavaScript, jQuery, HTML/CSS
