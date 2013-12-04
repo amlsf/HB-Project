@@ -1,0 +1,53 @@
+{% extends 'base.html' %}
+	<body class="archive">
+	{% block body %}
+		<div id="top-nav">
+			<div id="top-nav-container-left">
+				<a href="/">
+					<img src="../static/img/supplycache-logo-subpage.png" border="0">
+				</a>
+			</div>
+			<div id="top-nav-container-right">
+				<div id="top-nav-list">
+					<ul>
+						<li><a href="/about">About</a></li>
+						<li><a href="/archive">Archive</a></li>
+					</ul>
+				</div>
+			</div>
+		</div>
+
+		<div id="subpage-archive-container">
+			<div id="subpage-archive-inner-container">
+				<div id="subpage-archive-content">
+					<div id="description">
+						<center>
+							You must be logged in to view this page!
+						</center>
+
+						<br>
+
+						<div id="description-login">
+							<form method="POST">
+								<label for="email">Email</label>
+								<input type="text" class="input" name="email" />
+
+								<label for="password">Password</label>
+								<input type="password" class="input" name="password" />
+
+								<center>
+									<input type="submit" value="Log in" class="btn-style-login">
+								</center>
+							</form>
+						</div>
+
+						<p align="center">
+							Not registered? Please <a href="/register">register here</a>.
+						</p>
+					</div>
+				</div>
+			</div>
+		</div>
+	{% endblock %}
+	</body>
+</html>

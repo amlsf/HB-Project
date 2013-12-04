@@ -1,0 +1,19 @@
+{% extends 'base.html'%}
+
+{% block body %}
+
+	<form action="/login" method="POST">
+		<ul>
+			<li>Email</li>
+			{{ email }}
+
+			<li> Password</li>
+			{{ password }}
+		</ul>
+
+		<br>
+
+		<button>Login</button>		
+	</form>
+
+{% endblock %}

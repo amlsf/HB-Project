@@ -1,0 +1,34 @@
+{% extends 'base.html' %}
+    <body>
+    {% block body %}
+        <div id="nav">
+            <div id="title-container">
+                <div id="title">
+                    <a href="/" class="title">Preparely</a>
+                </div>
+            </div>
+            <div id="nav-right">
+                <a href="/form" id="submit-button" class="navright">add to map</a>
+                <a href="/archive" class="navright">archived events</a>
+                <a href="/about" class="navright">about</a>
+            </div>
+        </div>
+
+        <br><br>
+
+        <div id="content">
+            Successfully added!<br><br>
+            
+            <strong>First name:</strong> {{ first_name }}<br>
+            <strong>Last name:</strong> {{ last_name }}<br>
+            <strong>Email:</strong> {{ email }}<br>
+            <strong>Phone Number:</strong> {{ phone_num }}<br>
+            <strong>Address:</strong> {{ full_address }}<br>
+            <strong>Latitude:</strong> {{ lat }}<br>
+            <strong>Longitude:</strong> {{ lng }}<br>
+            <strong>Supply Type:</strong> {{ supply_type }}<br>
+            <strong>Supply Amount:</strong> {{ supply_amount }}
+        </div>
+    {% endblock %}
+    </body>
+</html>
