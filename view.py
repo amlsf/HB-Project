@@ -1,3 +1,22 @@
+"""
+    Author: Amy Lin
+    Hackbright Academy, Fall 2013
+
+    Project: SupplyCache
+    Helping communities locate resources after a disaster
+
+    Many thanks to:
+    Hackbright!
+    Leaflet JS + the amazing community for the various plugins
+        Marker Cluster
+        Heatmap JS
+    Twilio
+    Rickshaw JS
+    CloudMade
+    ngrok
+    Google Fonts
+"""
+
 from flask import Flask, render_template, redirect, request, url_for
 # from flask.ext.login import LoginManager, login_required, login_user, current_user
 from flaskext.markdown import Markdown
@@ -21,16 +40,6 @@ TWILIO_NUMBER = os.environ.get('TWILIO_NUMBER')
 app = Flask(__name__)
 app.config.from_object(config)
 
-# Stuff to make login easier
-# login_manager = LoginManager()
-# login_manager.init_app(app)
-# login_manager.login_view = "login"
-
-# @login_manager.user_loader
-# def load_user(user_id):
-#     return User.query.get(user_id)
-# End login stuff
-
 # Adding markdown capability to the app
 Markdown(app)
 
@@ -38,6 +47,7 @@ Markdown(app)
 # --------- MAIN PAGE ---------
 @app.route("/")
 def index():
+    # query DB - info for popup on map
     master_info = Master.query.all()
     master_list = []
     for info in master_info:
@@ -60,13 +70,13 @@ def index():
 # --------- TWILIO ---------
 @app.route("/incoming/sms", methods=["GET"])
 def incoming_sms():
-    
+    # Twilio SMS response
     resp = twilio.twiml.Response()
     message = "Your text message has been received by SupplyCache!"
-
+    # Retrieve info from Twilio
     user_num = request.values.get('From')
     user_msg = request.values.get('Body')
-
+    # format and parse SMS
     format_msg = user_msg.split("/")
     # user info
     name = format_msg[0]
@@ -97,14 +107,12 @@ def incoming_sms():
     model.session.commit()
 
     resp.sms(message)
-
     return str(resp)
 
 
 # --------- WEB FORM ---------
 @app.route("/submit", methods=["POST"])
 def submit():
-
     # user info
     name = request.form.get("name")
     email = request.form.get("email")
@@ -155,57 +163,6 @@ def archive():
 def admin():
     return render_template("admin.html")
 
-
-# --------- GRAPH ---------
-# @app.route("/graph")
-# def graph():
-#     d = {}
-#     data = Supply.query.all()
-    
-#     for value in data:
-#         amount = value.id
-#         unicode_supply = value.supply_type
-#         supply = unicode_supply.encode("ascii", "ignore")
-#         if supply not in d.keys(): 
-#             d[supply] = amount
-#         else:
-#             d[supply] += amount
-
-#     keys_list = d.keys()
-#     values_list = []
-#     for key in keys_list:
-#         values_list.append(d[key])
-
-#     return render_template("db_graph.html", keys_list=keys_list, values_list=values_list)
-
-# @app.route("/register", methods=["GET","POST"])
-# def register():
-#     form = RegistrationForm(request.form)
-#     if request.method == "POST" and form.validate():
-#         user = User(form.username.data, form.email.data, form.password.data)
-#         model.session.add(user)
-#         flash("Thanks for registering")
-#         return redirect(url_for("/"))
-#     return render_template("register.html", form=form)
-
-# @app.route("/login", methods=["POST"])
-# def authenticate():
-#     form = forms.LoginForm(request.form)
-#     if not form.validate():
-#         flash("Incorrect username or password") 
-#         return render_template("login.html")
-
-#     email = form.email.data
-#     password = form.password.data
-
-#     user = User.query.filter_by(email=email).first()
-
-#     if not user or not user.authenticate(password):
-#         flash("Incorrect username or password") 
-#         return render_template("login.html")
-
-#     login_user(user)
-#     return redirect(request.args.get("next", url_for("index")))
 
 if __name__ == "__main__":
     app.run(debug=True)

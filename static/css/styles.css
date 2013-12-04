@@ -1,6 +1,20 @@
 /*
-	Author: Amy Lin
-	Hackbright Academy, Fall 2013
+    Author: Amy Lin
+    Hackbright Academy, Fall 2013
+
+    Project: SupplyCache
+    Helping communities locate resources after a disaster
+
+    Many thanks to:
+    Hackbright!
+    Leaflet JS + the amazing community for the various plugins
+        Marker Cluster
+        Heatmap JS
+    Twilio
+    Rickshaw JS
+    CloudMade
+    ngrok
+    Google Fonts
 */
 
 
@@ -67,7 +81,7 @@ td {
 
 /******* MAP CONTENT *******/
 
-#content-wrapper {
+.content-wrapper {
 	float: left;
 	width: 100%;
 }
@@ -98,7 +112,7 @@ td {
 
 /******* SIDEBAR & NAV *******/
 
-#sidebar {
+.sidebar {
 	background: #fff;
 	float: right;
 	position: absolute;
@@ -108,24 +122,24 @@ td {
 	box-shadow: 0 0 15px rgba(0, 0, 0, 0.15);
 }
 
-#title-image {
+.title-image {
 	margin: 35px 0 40px 0;
 	border: 0;
 	text-align: center;
 }
 
-#navcontainer ul {
+.navcontainer ul {
 	margin: 40px 0 40px 0;
 	padding: 0;
 	list-style-type: none;
 	text-align: center;
 }
 
-#navcontainer ul li {
+.navcontainer ul li {
 	display: inline;
 }
 
-#navcontainer ul li a {
+.navcontainer ul li a {
 	text-decoration: none;
 	font: 13px "Open Sans", Arial, sans-serif;
 	text-align: center;
@@ -139,7 +153,7 @@ td {
 	border-radius: 4px 3px 6px / 2px 4px;
 }
 
-#navcontainer ul li a:hover {
+.navcontainer ul li a:hover {
 	text-decoration: none;
 	color: #333;
 	background-color: #cdcdcd;
@@ -216,7 +230,7 @@ label {
 
 /******* TOP NAV - SUBPAGES *******/
 
-#top-nav {
+.top-nav {
 	background: #fff;
 	top: 0;
 	position: fixed;
@@ -227,28 +241,28 @@ label {
 	/*box-shadow: 0 0 15px 0 rgba(0, 0, 0, 0.25);*/
 }
 
-#top-nav-container-left {
+.top-nav-container-left {
 	float: left;
 	margin: 22px 0 0 25px;
 }
 
-#top-nav-container-right {
+.top-nav-container-right {
 	float: right;
 	margin: 26px 22px 0 0;
 }
 
-#top-nav-list ul {
+.top-nav-list ul {
 	margin: 0;
 	padding: 0;
 	list-style-type: none;
 	text-align: center;
 }
 
-#top-nav-list ul li {
+.top-nav-list ul li {
 	display: inline;
 }
 
-#top-nav-list ul li a {
+.top-nav-list ul li a {
 	text-decoration: none;
 	font: 13px "Open Sans", Arial, sans-serif;
 	text-align: center;
@@ -262,7 +276,7 @@ label {
 	border-radius: 4px 3px 6px / 2px 4px;
 }
 
-#top-nav-list ul li a:hover {
+.top-nav-list ul li a:hover {
 	text-decoration: none;
 	color: #333;
 	background-color: #cdcdcd;
@@ -271,47 +285,47 @@ label {
 
 /******* CONTENT - SUBPAGES *******/
 
-#subpage-container {
+.subpage-container {
 	width: 100%;
 	height: 100%;
 }
 
-#subpage-header {
+.subpage-header {
 	margin: 70px 0 50px 0;
 	width: 100%;
 }
 
-#subpage-content {
+.subpage-content {
 	margin: auto;
 	width: 900px;
 }
 
-#subpage-archive-container {
+.subpage-archive-container {
 	width: 100%;
 	height: 100%;
 	background: url("../../static/img/tiny_grid.png");
 }
 
-#subpage-archive-inner-container {
+.subpage-archive-inner-container {
 	padding-top: 255px;
 }
 
-#subpage-archive-content {
+.subpage-archive-content {
 	width: 450px;
 	margin: auto;
 }
 
-#description {
+.description {
 	font: 18px/35px "Open Sans", Arial, sans-serif;
 	padding-bottom: 50px	
 }
 
-#description-login {
+.description-login {
 	margin: auto;
 	width: 270px;
 }
 
-#archive-logged-in-container {
+.archive-logged-in-container {
 	width: 100%;
 	height: 100%;
 	margin-bottom: 65px;
@@ -344,7 +358,7 @@ label {
 	font: 16px/25px "Open Sans", Arial, sans-serif;
 }
 
-#btn-summary {
+.btn-summary {
 	border: none;
 	border-radius: 4px 3px 6px / 2px 4px;
 	background-color: #4cb1d7;

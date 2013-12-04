@@ -1,24 +1,25 @@
 {% extends 'base.html' %}
 	<body>
 	{% block body %}
-		<div id="top-nav">
-			<div id="top-nav-container-left">
+		<div class="top-nav">
+			<div class="top-nav-container-left">
 				<a href="/">
 					<img src="../static/img/supplycache-logo-subpage.png" border="0">
 				</a>
 			</div>
-			<div id="top-nav-container-right">
-				<div id="top-nav-list">
+			<div class="top-nav-container-right">
+				<div class="top-nav-list">
 					<ul>
 						<li><a href="/about" class="active">About</a></li>
 						<li><a href="/archive">Archive</a></li>
+						<li><a href="/archive/admin">Demo login</a><li>
 					</ul>
 				</div>
 			</div>
 		</div>
 
-		<div id="archive-logged-in-container">
-			<div id="subpage-header">
+		<div class="archive-logged-in-container">
+			<div class="subpage-header">
 			</div>
 
 			<div class="archive-logged-in-content">
@@ -28,9 +29,9 @@
 					</div>
 				</div>
 				<div class="archive-logged-in-right">
-					<button id="btn-summary">View Summary</button>
+					<button class="btn-summary">View Summary</button>
 					&nbsp;
-					<button id="btn-summary">View Map</button>
+					<button class="btn-summary">View Map</button>
 				</div>
 			</div>
 
