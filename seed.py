@@ -14,7 +14,7 @@ def load_master(session):
         lat = row[4]
         lng = row[5]
         supply_type = row[6]
-        extra_comment = row[7]
+        extra_comment = row[-1]
 
         master = model.Master(name=name, email=email, phone_num=phone_num, full_address=full_address, lat=lat, lng=lng, supply_type=supply_type, extra_comment=extra_comment)
         user = model.User(name=name, email=email, phone_num=phone_num)

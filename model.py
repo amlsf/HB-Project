@@ -25,8 +25,8 @@ class Master(Base):
     full_address = Column(String(300), nullable=True)
     lat = Column(Integer, nullable=True)
     lng = Column(Integer, nullable=True)
-    supply_type = Column(String(140), nullable=True)
-    extra_comment = Column(String(140), nullable=True)
+    supply_type = Column(String(300), nullable=True)
+    extra_comment = Column(String(300), nullable=True)
 
 # ------- User info ------- 
 class User(Base):
@@ -48,14 +48,14 @@ class Location(Base):
 class Supply(Base):
     __tablename__ = "supply"
     id = Column(Integer, primary_key=True)
-    supply_type = Column(String(140), nullable=True)
+    supply_type = Column(String(300), nullable=True)
     date_logged = Column(DateTime, nullable=True)
 
 # ------- Comments -------
 class Comment(Base):
     __tablename__ = "comment"
     id = Column(Integer, primary_key=True)
-    extra_comment = Column(String(140), nullable=True)
+    extra_comment = Column(String(300), nullable=True)
 
 # ------- Creates DB tables -------
 def create_tables():

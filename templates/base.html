@@ -68,7 +68,7 @@
         <script>
             $(document).ready(function() {
                 var details = $(".archive-event-details");
-                $(details).show();
+                $(details).hide();
 
                 $("button").click(function(e) {
                     $(details).toggle();
@@ -94,7 +94,7 @@
                         value: 500, 
                         absolute: true 
                     },
-                    opacity: 0.65,
+                    opacity: 0.55,
                     gradient: {
                         0.45: "rgb(0,0,255)",
                         0.55: "rgb(0,255,255)",
@@ -114,9 +114,13 @@
                         {lat: 37.773399, lon:-122.459155, value: 1.5},
                         {lat: 37.769399, lon:-122.454155, value: 1.5},
                         {lat: 37.769399, lon:-122.464155, value: 1.5},
-                        {lat: 37.73, lon:-122.420338, value: 3.75},
+                        {lat: 37.73, lon:-122.420338, value: 3},
+                        {lat: 37.73, lon:-122.415, value: 3},
+                        {lat: 37.726, lon:-122.415, value: 3},
                         {lat: 37.735, lon:-122.425338, value: 1.75},
-                        {lat: 37.729, lon:-122.433338, value: 1.75}
+                        {lat: 37.729, lon:-122.433338, value: 1.75},
+                        {lat: 37.677503, lon:-122.456231, value: 1},
+                        {lat: 37.681884, lon:-122.461939, value: 1.25}
                     ]
                 };
                 heatmapLayer.setData(testData.data);
@@ -134,7 +138,7 @@
 
                 var map = new L.Map('map', {
                     zoomControl: false,
-                    center: new L.LatLng(37.762573,-122.495365),
+                    center: new L.LatLng(37.75042,-122.489),
                     zoom: 12,
                     layers: [baseLayer, heatmapLayer]
                 });
