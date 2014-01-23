@@ -76,6 +76,54 @@
                 });
             });
         </script>
+        <!-- JavaScript form validation -->
+        <script>
+            var name = document.getElementById("name");
+            var phone = document.getElementById("phone");
+            var email = document.getElementById("email");
+            var address = document.getElementById("address");
+            var supply = document.getElementById("supply");
+
+            name.addEventListener("keyup", function (event) {
+                if(name.validity.typeMismatch) {
+                    name.setCustomValidity("Please enter your name");
+                } else {
+                    name.setCustomValidity("");
+                }
+            });
+
+            phone.addEventListener("keyup", function (event) {
+                if(phone.validity.typeMismatch) {
+                    phone.setCustomValidity("Please enter your phone number");
+                } else {
+                    phone.setCustomValidity("");
+                }
+            });
+
+            email.addEventListener("keyup", function (event) {
+                if(email.validity.typeMismatch) {
+                    email.setCustomValidity("Not a valid email address");
+                } else {
+                    email.setCustomValidity("");
+                }
+            });
+
+            address.addEventListener("keyup", function (event) {
+                if(address.validity.typeMismatch) {
+                    address.setCustomValidity("Please enter your street address");
+                } else {
+                    address.setCustomValidity("");
+                }
+            });
+
+            supply.addEventListener("keyup", function (event) {
+                if(supply.validity.typeMismatch) {
+                    supply.setCustomValidity("Please enter your supply");
+                } else {
+                    supply.setCustomValidity("");
+                }
+            });
+        </script>
         <!-- Leaflet Map tiling + heatmap -->
         <script>
             $(function () {
@@ -138,7 +186,7 @@
 
                 var map = new L.Map('map', {
                     zoomControl: false,
-                    center: new L.LatLng(37.75042,-122.489),
+                    center: new L.LatLng(37.75042,-122.451),
                     zoom: 12,
                     layers: [baseLayer, heatmapLayer]
                 });

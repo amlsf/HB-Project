@@ -4,7 +4,7 @@
 		<div class="content-wrapper">
 			<div id="map"></div>
 			<div class="overlay title">
-				Bay Area Zombie Apocalypse - December 2013
+				Demo Situation - San Francisco, CA - December 2013
 			</div>
 		</div>
 
@@ -12,7 +12,7 @@
 		<div class="sidebar">
 			<div class="title-image">
 				<a href="/">
-					<img src="../static/img/supplycache-logo-blue.png" title="Helping you find resources after a disaster" />
+					<img src="../static/img/supplycache-logo-blue.png" title="Helping you locate resources after a disaster" />
 				</a>
 			</div>
 
@@ -27,29 +27,29 @@
 				<center>
 				<form action="/submit" method="POST">
 					<label for="name">Name *</label>
-					<input type="text" class="input" name="name" />
+					<input type="text" class="input" id="name" name="name" required />
 
 					<label for="phone_num">Phone Number *</label>
-					<input type="text" class="input" name="phone_num" />
+					<input type="text" class="input" id="phone" name="phone_num" required />
 
 					<label for="email">Email</label>
-					<input type="text" class="input" name="email" />
+					<input type="email" class="input" id="email" name="email" />
 
 					<label for="address">Address, City, State *</label>
-					<input type="text" class="input" name="address" />
+					<input type="text" class="input" id="address" name="address" required />
 
 					<label for="supply_type">Supply *</label>
-					<input type="text" class="input" name="supply_type" />
+					<input type="text" class="input" id="supply" name="supply_type" required />
 
 					<label for="comment">Additional Comments</label>
-					<input type="text" class="input-comment" name="comment" />
+					<textarea type="text" class="input-comment" name="comment" /></textarea>
 
 					<input type="submit" name="submit" class="btn-style-map" value="Add to Map" />
 				</form>
 				</center>
 				
 				<p>
-					On the run? Text message your information to <strong>+1 (732) 734-6228</strong>! Please follow this format: name/address/supply/comment.
+					On the run? Text message your information to <strong>+1 (732) 734-6228</strong> in this format, including the slashes: name/address/supply/comment
 				</p>
 
 				<br><br>
