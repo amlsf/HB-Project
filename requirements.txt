@@ -9,10 +9,13 @@ SQLAlchemy==0.8.3
 WTForms==1.0.5
 Werkzeug==0.9.4
 bcrypt==1.0.2
-cffi==0.7.2
 gunicorn==18.0
+httplib2==0.8
 itsdangerous==0.23
 pycparser==2.10
+pygeocoder==1.2.1.1
+requests==2.1.0
+six==1.4.1
+twilio==3.6.4
+unittest2==0.5.1
 wsgiref==0.1.2
-pygeocoder
-twilio
