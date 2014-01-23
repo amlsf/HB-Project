@@ -47,7 +47,7 @@ Markdown(app)
 # --------- MAIN PAGE ---------
 @app.route("/")
 def index():
-    # query DB - info for popup on map
+    # query DB
     master_info = Master.query.all()
     master_list = []
     for info in master_info:
