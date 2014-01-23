@@ -3,7 +3,7 @@ import config
 
 from sqlalchemy.ext.declarative import declarative_base
 from sqlalchemy import create_engine
-from sqlalchemy import Column, Integer, String, DateTime
+from sqlalchemy import Column, Integer, String, DateTime, Float
 from sqlalchemy.orm import sessionmaker, scoped_session
 # from flask.ext.login import UserMixin
 
@@ -23,8 +23,8 @@ class Master(Base):
     email = Column(String(140), nullable=True)
     phone_num = Column(String(140), nullable=True)
     full_address = Column(String(300), nullable=True)
-    lat = Column(Integer, nullable=True)
-    lng = Column(Integer, nullable=True)
+    lat = Column(Float, nullable=True)
+    lng = Column(Float, nullable=True)
     supply_type = Column(String(300), nullable=True)
     extra_comment = Column(String(300), nullable=True)
 
@@ -41,8 +41,8 @@ class Location(Base):
     __tablename__ = "location"
     id = Column(Integer, primary_key=True)
     full_address = Column(String(300), nullable=True)
-    lat = Column(Integer, nullable=True)
-    lng = Column(Integer, nullable=True)
+    lat = Column(Float, nullable=True)
+    lng = Column(Float, nullable=True)
 
 # ------- Supply -------
 class Supply(Base):
