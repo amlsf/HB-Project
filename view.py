@@ -158,6 +158,12 @@ def archive():
     return render_template("archive.html")
 
 
+# --------- ARCHIVE ---------
+@app.route("/register")
+def register():
+    return render_template("register.html")
+
+
 # --------- IF LOGGED IN ---------
 @app.route("/archive/admin")
 def admin():

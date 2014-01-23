@@ -1,12 +1,60 @@
-{% from "_formhelpers.html" import render_field %}
+{% extends 'base.html' %}
+	<body class="archive">
+	{% block body %}
+		<div class="top-nav">
+			<div class="top-nav-container-left">
+				<a href="/">
+					<img src="../static/img/supplycache-logo-subpage.png" border="0">
+				</a>
+			</div>
+			<div class="top-nav-container-right">
+				<div class="top-nav-list">
+					<ul>
+						<li><a href="/">Home</a></li>
+						<li><a href="/about">About</a></li>
+						<li><a href="/archive">Archive</a></li>
+						<li><a href="/archive/admin">Demo login</a><li>
+					</ul>
+				</div>
+			</div>
+		</div>
 
-<form method="post" action="/register">
-	<dl>
-		{{ render_field(form.username) }}
-		{{ render_field(form.email) }}
-		{{ render_field(form.password) }}
-		{{ render_field(form.confirm) }}
-	</dl>
+		<div class="subpage-archive-container">
+			<div class="register-inner-container">
+				<div class="register-content">
+					<div class="register">
+						<div class="register-form">
+							<form action="/submit" method="POST">
+								<label for="name">Name *</label>
+								<input type="text" class="register-input" id="name" name="name" required />
 
-	<p><input type="submit" value="Register"></p>
-</form>
+								<label for="title">Title/Position</label>
+								<input type="text" class="register-input" id="name" name="name" />
+
+								<label for="email">Email *</label>
+								<input type="email" class="register-input" id="email" name="email" required />
+
+								<label for="phone_num">Phone Number *</label>
+								<input type="text" class="register-input" id="phone" name="phone_num" required />
+
+								<label for="title">Company *</label>
+								<input type="text" class="register-input" id="name" name="name" required />
+
+								<label for="address">Address, City, State *</label>
+								<input type="text" class="register-input" id="address" name="address" required />
+
+								<label for="comment">Reason for use:</label>
+								<textarea type="text" class="register-input-comment" name="comment" /></textarea>
+
+								<center>
+									<input type="submit" value="Register" class="btn-style-login">
+								</center>
+							</form>
+						</div>
+					</div>
+				</div>
+			</div>
+		</div>
+	{% endblock %}
+	</body>
+</html>
